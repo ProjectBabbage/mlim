@@ -2,12 +2,15 @@ import ply.lex as lex
 
 tokens = (
     'NUMBER',
-    'PLUS',
-    'MINUS'
+    'BINOP',
+    'LPAREN',
+    'RPAREN'
 )
 
-t_PLUS  = r'\+'
-t_MINUS = r'-'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+
+t_BINOP  = r'\+|-|\*|/'
 
 def t_NUMBER(t):
     r'\d+'
