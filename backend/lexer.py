@@ -2,7 +2,8 @@ import ply.lex as lex
 
 tokens = (
     'NUMBER',
-    'BINOP',
+    'MULOP',
+    'ADDOP',
     'LPAREN',
     'RPAREN'
 )
@@ -10,11 +11,12 @@ tokens = (
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 
-t_BINOP  = r'\+|-|\*|/'
+t_ADDOP  = r'\+|-'
+t_MULOP  = r'\*|/'
 
 def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+    r'-?\d+(\.\d+)?'
+    t.value = float(t.value)
     return t
 
 t_ignore = '\t \n'
