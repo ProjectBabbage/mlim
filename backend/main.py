@@ -6,8 +6,6 @@ if __name__ == "__main__":
 
     lexer.lex.input(prog)
 
-    lexer.machin()
-
     while 1:
         tok = lexer.lex.token()
         if not tok:
