@@ -17,9 +17,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Workspace />
-        <div className="text-orange-500">Put a REPL here ⬇</div>
-        <REPL />
         <Cells />
       </main>
     </div>
