@@ -16,14 +16,7 @@ def p_prog_addop(p):
 
 def p_prog_sum(p):
     "prog : SUM UNDERS LBRACK VAR EQUALS prog RBRACK CARET LBRACK prog RBRACK mulprog"
-    i = p[4]
-    i_initial = int(p[6]())
-    i_final = int(p[10]())
-    s = 0
-    for k in range(i_initial, i_final + 1):
-        model.context[i] = k
-        s += p[12]()
-    p[0] = model.Value(s)
+    p[0] = model.Sum(p[4], p[6], p[10], p[12])
 
 
 def p_prog_mulprog(p):
