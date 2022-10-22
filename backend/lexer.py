@@ -1,8 +1,6 @@
 import ply.lex as lex
 
 reserved = {
-    "begin": "BEGIN",
-    "end": "END",
     "bmatrix": "MULTILINE",
 }
 
@@ -21,9 +19,10 @@ tokens = [
     "EQUALS",
     "AMPER",
     "DOUBLEBS",
-    "BSLASH",
     "VAR",
     "LEFTARROW",
+    "BEGIN",
+    "END",
 ] + list(reserved.values())
 
 t_LPAREN = r"\("
@@ -37,9 +36,11 @@ t_UNDERS = r"\_"
 t_CARET = r"\^"
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
-t_BSLASH = r"\\"
 t_SUM = r"\\sum"
 t_PRODUCT = r"\\prod"
+
+t_BEGIN = r"\\begin"
+t_END = r"\\end"
 
 t_DOUBLEBS = r"\\\\"
 t_AMPER = r"&"

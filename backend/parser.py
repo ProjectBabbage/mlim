@@ -66,8 +66,8 @@ def p_literal_num(p):
 
 
 def p_expression_multiline(p):
-    "literal : BSLASH BEGIN LBRACK MULTILINE RBRACK multiline BSLASH END LBRACK MULTILINE RBRACK"
-    p[0] = model.Matrix(p[6])
+    "literal : BEGIN LBRACK MULTILINE RBRACK multiline END LBRACK MULTILINE RBRACK"
+    p[0] = model.Matrix(p[5])
 
 
 def p_multiline_line(p):
