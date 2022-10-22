@@ -1,6 +1,7 @@
 import ply.lex as lex
 
 tokens = (
+    "VAR",
     "NUMBER",
     "MULOP",
     "ADDOP",
@@ -10,6 +11,8 @@ tokens = (
     "LBRACK",
     "RBRACK",
     "UNDERS",
+    "CARET",
+    "EQUALS",
 )
 
 t_LPAREN = r"\("
@@ -17,13 +20,20 @@ t_RPAREN = r"\)"
 t_LBRACK = r"\{"
 t_RBRACK = r"\}"
 
+t_EQUALS = r"="
 t_UNDERS = r"\_"
-t_CARET = r"^"
+t_CARET = r"\^"
 
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
 
 t_SUM = r"\\sum"
+
+
+def t_VAR(t):
+    r"[a-z]+"
+    t.value = str(t.value)
+    return t
 
 
 def t_NUMBER(t):
