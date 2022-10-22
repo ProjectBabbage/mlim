@@ -19,7 +19,7 @@ export default function CellComponent(props: CellProps) {
     return (
         <div className="cell-component">
             <h2>Cell #{props.id}</h2>
-            { lines.map((line, i) => <Line line={line} key={i}></Line>) }
+            { lines.map((line, i) => <div className="sick-fade-in" key={i}><Line line={line}></Line></div>) }
             <div className="action-container">
                 <div className="flex-grow"></div>
                 <button className="icon-button" type="button" onClick={addLine}>+</button>

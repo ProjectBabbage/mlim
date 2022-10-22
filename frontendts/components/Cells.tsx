@@ -20,7 +20,7 @@ export default function Cells() {
             <div className="action-container">
                 <div className="flex-grow"></div>
                 <div>
-                    <button type="button" onClick={addCell}>Nouvelle cellule</button>
+                    <button type="button" className="add-cell-action" onClick={addCell}>Nouvelle cellule</button>
                 </div>
             </div>
         </div>
