@@ -33,6 +33,8 @@ async def code(json: dict):
             evaluable = command
             store = "_"
 
+        print("COMMAND", command)
+        print("EVALUABLE", evaluable)
         response = eval(evaluable)
         STATE[store] = response
     except Exception:
