@@ -1,10 +1,14 @@
 import REPL from './repl';
-import { useEffect, useState } from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
+
+type CellsType = Array<JSX.Element>;
+type OptCellsType = CellsType | null;
+type UseState<S> = [S, Dispatch<SetStateAction<S>>]
 
 export default function Workspace() {
-  const [cells, setCells] = useState([])
-  const [cellCount, setCellCount] = useState(0)
-  const [cellsDisplay, setCellsDisplay] = useState(null)
+  const [cells, setCells]: UseState<CellsType> = useState<CellsType>([])
+  const [cellCount, setCellCount]: UseState<number> = useState<number>(0)
+  const [cellsDisplay, setCellsDisplay]: UseState<OptCellsType> = useState<OptCellsType>(null)
 
     useEffect(() => {
         console.log(cells)
@@ -12,14 +16,13 @@ export default function Workspace() {
         setCellsDisplay(cells)
     }, [cellCount])
 
-    function addCell(){
+    function addCell(): void {
         cells.push(
             <div key={cells.length}>
                 CELL
                 <REPL/>
             </div>)
         setCellCount(cellCount + 1)
-        console.log(cells.length)
     }
 
     return (

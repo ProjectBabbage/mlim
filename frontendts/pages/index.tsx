@@ -4,6 +4,7 @@ import REPL from '../components/repl';
 import { useState } from 'react';
 import '../node_modules/katex/dist/katex.css'
 import Workspace from '../components/Workspace';
+import {NextPage} from "next";
 
 const Home: NextPage = () => {
   return (
