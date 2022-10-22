@@ -39,11 +39,11 @@ t_MULOP = r"\*|/"
 
 t_SUM = r"\\sum"
 
-t_DOUBLEBS = "\\\\"
-t_AMP = "&"
-t_BSLASH = "\\"
+t_DOUBLEBS = r"\\\\"
+t_AMPER = r"&"
+t_BSLASH = r"\\"
 
-t_ignore = "\t "
+t_ignore = r"\t "
 
 
 def t_newline(t):
