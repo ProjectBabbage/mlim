@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import List
 
 context = {}
 
@@ -25,6 +26,14 @@ class Var(Prog):
 
     def __call__(self):
         return context[self.value]
+
+
+class Matrix(Prog):
+    def __init__(self, matrix: List[List[Prog]]):
+        self.matrix = matrix
+
+    def __call__(self):
+        return [[x() for x in line] for line in self.cells]
 
 
 class BinOp(Prog):
