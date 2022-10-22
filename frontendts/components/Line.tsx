@@ -37,6 +37,11 @@ export default function Line({lineNumber, line, lineUpdate}: LineProps) {
         textArea.current?.select();
     }
 
+    function addArrow(): void {
+        setContent(`${content} \\leftarrow `);
+        textArea.current?.select();
+    }
+
     function addTimes(): void {
         setContent(`${content}\\times`);
         textArea.current?.select();
@@ -54,6 +59,7 @@ export default function Line({lineNumber, line, lineUpdate}: LineProps) {
             <div className={`line-container ${focus ? 'focused' : ''}`}>
                 <div className="line-actions">
                     <button className="line-action" onClick={addSum}>Σ</button>
+                    <button className="line-action font-bold" onClick={addArrow}>⟵</button>
                     {/* <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
                     <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button> */}
 
