@@ -1,3 +1,4 @@
+import numpy as np
 import ply.yacc as yacc
 
 from lexer import tokens  # noqa: F401

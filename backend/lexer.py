@@ -1,12 +1,14 @@
 import ply.lex as lex
 
-tokens = ("NUMBER", "MULOP", "ADDOP", "LPAREN", "RPAREN")
+tokens = ("NUMBER", "MULOP", "ADDOP", "LPAREN", "RPAREN", "SUM")
 
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
 
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
+
+t_SUM = r"\\sum"
 
 
 def t_NUMBER(t):
