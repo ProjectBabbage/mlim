@@ -2,17 +2,17 @@ import { AbstractLine, Cell } from "../models/cells";
 import Line from "./Line";
 import { useState } from "react";
 import { LineFactory } from "../services/line-factory";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faTrashCan, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CellProps {
     id: number;
     cell: Cell;
+    deleteCell: Function;
     callApi: (_: string) => Promise<string>;
 }
 
-export default function CellComponent({id, cell, callApi}: CellProps) {
+export default function CellComponent({id, cell, deleteCell, callApi}: CellProps) {
     const [result, setResult] = useState('');
     const [lines, setLines] = useState(cell.lines);
     const [editorEnabled, setEditorEnabled] = useState(true);
@@ -83,7 +83,7 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
 
     function addSum(): void {
         if(currentLineIndex !== null)
-            lineUpdate(currentLineIndex, `${lines[currentLineIndex].content}\\sum`)
+            lineUpdate(currentLineIndex, `${lines[currentLineIndex].content}\\sum_{i=0}^{n} i*i`)
 
     }
 
@@ -100,6 +100,9 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
     return (
         <div className="cell-component">
             <div className="cell-header">
+                <div className="text-red-500" onClick={() => deleteCell(id)}>
+                    <FontAwesomeIcon icon={faTrashCan} />
+                </div>            
                 <h2>Cell #{id}</h2>
                 <div onClick={execLines}>
                     <FontAwesomeIcon className="play-icon" icon={faPlay} />
@@ -129,9 +132,8 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
                 <button className="icon-button" type="button" onClick={() => addLine()}>+</button>
             </div>
             <div>
-                <h3>Result</h3>
                 <pre>{result}</pre>
-            </div>            
+            </div>
         </div>
     )
 }

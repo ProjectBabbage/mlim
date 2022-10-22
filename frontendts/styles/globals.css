@@ -157,3 +157,9 @@ h2 {
 .play-icon {
   color: rgb(81, 190, 81);
 }
+
+.cell-component {
+  border: 1px solid #9c9c9c ;
+  padding: 5px;
+  margin-top: 10px;
+}
