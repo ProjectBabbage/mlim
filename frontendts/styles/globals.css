@@ -114,11 +114,11 @@ h2 {
   margin: 0px;
 }
 
-.line-container textarea{
+.line-container input{
   transition: 25ms;
 }
 
-.line-container textarea:hover{
+.line-container input:hover{
   background-color: rgba(255, 255, 0, 0.1);
 }
 .line-container.focused {

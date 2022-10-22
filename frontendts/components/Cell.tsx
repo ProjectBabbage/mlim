@@ -25,10 +25,10 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
     const addLine = () => {
         const newLine = LineFactory.createCodeLine();
         setLines([...lines, newLine]);
+        setCurrentLineIndex(currentLineIndex ? currentLineIndex + 1 : 0)
     }
 
     const lineUpdate = (lineIndex: number, content: string) => {
-        console.log(`line update ${lineIndex} ${content}`)
         /*
             We have to create a new instance of the list 
             to ensure triggering functions useEffect 
@@ -59,6 +59,19 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
         setCurrentLineIndex(index)
     }
     
+    const nextLine = () => {
+        if(currentLineIndex == lines.length - 1)
+            addLine()
+        else
+            setCurrentLineIndex(currentLineIndex === null ? 0 : currentLineIndex + 1);
+    }
+
+    const previousLine = () => {
+        if(currentLineIndex && currentLineIndex > 0){
+            setCurrentLineIndex(currentLineIndex - 1)
+        }
+    }
+
     const execLines = async () => {
         const results = [];
         for(let i=0; i<lines.length; i++){
@@ -99,7 +112,17 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
             </div>
             <div className="lines-container">
-                { lines.map((line, i) => <div className="sick-fade-in" key={`${id}${i}`}><Line line={line} lineNumber={i} lineUpdate={lineUpdate} lineFocused={lineFocused}/></div>) }
+                { lines.map((line, i) => 
+                    <div className="sick-fade-in" key={`${id}${i}`}>
+                        <Line
+                            line={line} 
+                            lineNumber={i} 
+                            lineUpdate={lineUpdate} 
+                            lineFocused={lineFocused} 
+                            nextLine={nextLine}
+                            previousLine={previousLine}
+                            shouldFocus={i === currentLineIndex}/>
+                    </div>) }
             </div>
             <div className="action-container">
                 <div className="flex-grow"></div>

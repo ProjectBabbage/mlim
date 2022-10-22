@@ -7,16 +7,31 @@ interface LineProps {
     line: AbstractLine;
     lineUpdate: Function;
     lineFocused: Function;
+    nextLine: Function;
+    previousLine: Function;
+    shouldFocus: boolean
 }
 
-export default function Line({lineNumber, line, lineUpdate, lineFocused}: LineProps) {
+export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLine, previousLine, shouldFocus}: LineProps) {
     const [content, setContent] = useState(line.content);
-    const [focus, setFocus] = useState(false);
+    const [focus, setFocus] = useState(shouldFocus);
 
-    const textArea = React.createRef<HTMLTextAreaElement>();
+    const textArea = React.createRef<HTMLInputElement>();
 
     function handleChange(event: any): void {
         lineUpdate(lineNumber, event.target.value);
+    }
+
+    function handleKeyDown(event: any): void {
+        let key = event.key
+        switch(key){
+            case "ArrowDown":
+                nextLine();
+                break;
+            case "ArrowUp":
+                previousLine();
+                break;
+        }
     }
 
     function onFocus(): void {
@@ -29,6 +44,13 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused}: LinePr
     }
 
     useEffect(() => {
+        if(textArea.current && shouldFocus)
+            textArea.current.focus()
+        else
+            onBlur()
+    }, [textArea, shouldFocus])
+
+    useEffect(() => {
         setContent(line.content)
     }, [line.content])
 
@@ -38,7 +60,16 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused}: LinePr
                 <Katex instruction={content}/>
             </div>
             <div className={`line-container ${focus ? 'focused' : ''}`}>
-                <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+                <input 
+                    type="text" 
+                    ref={textArea} 
+                    className="line-area" 
+                    onChange={handleChange} 
+                    onKeyDown={handleKeyDown}
+                    value={content} 
+                    onFocus={onFocus} 
+                    onBlur={onBlur}
+                />
             </div>
         </div>
     )
