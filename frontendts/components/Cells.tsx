@@ -18,22 +18,25 @@ export default function Cells() {
             code: command,
             }),
         });
-        let result = await response.json().then(function (data) {
-            return data.RESULT;
-        });
+        let result = await response.json().then((data) => data.RESULT);
         return result;
     }
 
-    function addCell(): void {
+    const addCell = () => {
         const newCell: Cell = CellFactory.createCell();
         newCell.lines.push(LineFactory.createCodeLine());
         setCells([...cells, newCell]);
+    }
+    
+    const deleteCell = (i: number) => {
+        cells.splice(i, 1);
+        setCells([...cells]);
     }
 
     return (
         <div className="container">
             <h1>MLIM</h1>
-            { cells.map((cell, i) => <div id={`cell${i}`} key={i}><CellComponent cell={cell} callApi={callApi} id={i}></CellComponent></div>) }
+            { cells.map((cell, i) => <div id={`cell${i}`} key={i}><CellComponent cell={cell} deleteCell={deleteCell} callApi={callApi} id={i}></CellComponent></div>) }
             <div className="action-container">
                 <div className="flex-grow"></div>
                 <div>

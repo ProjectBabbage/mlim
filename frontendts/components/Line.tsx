@@ -28,7 +28,7 @@ export default function Line({lineNumber, line, lineUpdate}: LineProps) {
     }
 
     function addSum(): void {
-        setContent(`${content}\\sum`);
+        setContent(`${content}\\sum_{i=0}^{n} i*i`);
         textArea.current?.select();
     }
 
@@ -54,8 +54,8 @@ export default function Line({lineNumber, line, lineUpdate}: LineProps) {
             <div className={`line-container ${focus ? 'focused' : ''}`}>
                 <div className="line-actions">
                     <button className="line-action" onClick={addSum}>Σ</button>
-                    <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
-                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
+                    {/* <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
+                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button> */}
 
                 </div>
                 <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>

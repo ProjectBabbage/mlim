@@ -1,4 +1,5 @@
 import traceback
+import parser
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,8 +13,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-STATE = {}
-
+STATE = {} # state of the python kernel
+CELLS = [] # latex code of each cells
 
 @app.get("/")
 async def root():
@@ -25,20 +26,10 @@ async def code(json: dict):
     response = ""
     try:
         command = json["code"]
-        if "=" in command:
-            command = command.split("=")
-            evaluable = command[1]
-            store = command[0].strip()
-        else:
-            evaluable = command
-            store = "_"
-
-        print("COMMAND", command)
-        print("EVALUABLE", evaluable)
-        response = eval(evaluable)
-        STATE[store] = response
+        response = parser.yacc.parse(command)()
+        print(f"Result of command {command}: {response}")
     except Exception:
         traceback.print_exc()
         response = "That didn't mean anything to me"
     finally:
-        return {"STATE": STATE, "RESULT": response}
+        return {"STATE": STATE, "CELLS": CELLS, "RESULT": response}
