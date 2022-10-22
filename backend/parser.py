@@ -40,6 +40,11 @@ def p_mulprog_mulop(p):
     p[0] = model.BinOp(p[1], p[2], p[3])
 
 
+def p_mulprog_mul(p):
+    "prog : PRODUCT UNDERS LBRACK VAR EQUALS prog RBRACK CARET LBRACK prog RBRACK mulprog"
+    p[0] = model.Product(p[4], p[6], p[10], p[12])
+
+
 def p_mulprog_lit(p):
     "mulprog : literal"
     p[0] = p[1]

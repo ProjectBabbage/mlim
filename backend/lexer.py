@@ -14,6 +14,7 @@ tokens = [
     "LPAREN",
     "RPAREN",
     "SUM",
+    "PRODUCT",
     "LBRACK",
     "RBRACK",
     "UNDERS",
@@ -38,6 +39,7 @@ t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
 t_BSLASH = r"\\"
 t_SUM = r"\\sum"
+t_PRODUCT = r"\\prod"
 
 t_DOUBLEBS = r"\\\\"
 t_AMPER = r"&"
