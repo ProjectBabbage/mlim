@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List
+import ourMath
 
 
 class State:
@@ -56,7 +57,16 @@ class Matrix(Prog):
         self.matrix = matrix
 
     def __call__(self):
-        return [[x() for x in line] for line in self.matrix]
+        return Matrix([[x() for x in line] for line in self.matrix])
+
+    def __mul__(self, b):
+        return ourMath.mulMatrix(self.matrix, b.matrix)
+
+    def __add__(self, b):
+        return ourMath.addMatrix(self.matrix, b.matrix)
+
+    def __repr__(self):
+        return str(self.matrix)
 
 
 class BinOp(Prog):
@@ -71,6 +81,12 @@ class BinOp(Prog):
         elif self.op == "-":
             return self.left() - self.right()
         elif self.op == "*":
+            if type(self.right()) == Matrix and type(self.left()) == float:
+                return ourMath.mulMatrixbyScalar(self.right().matrix, self.left())
+            elif type(self.left()) == Matrix and type(self.right()) == float:
+                return ourMath.mulMatrixbyScalar(self.left().matrix, self.right())
             return self.left() * self.right()
         elif self.op == "/":
+            if type(self.left()) == Matrix and type(self.right()) == float:
+                return ourMath.divMatrixbyScalar(self.left().matrix, self.right())
             return self.left() / self.right()
