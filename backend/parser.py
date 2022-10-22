@@ -3,21 +3,35 @@ import ply.yacc as yacc
 
 from lexer import tokens  # noqa: F401
 
+precedence = (
+    ("left", "ADDOP"),
+    ("left", "MULOP"),
+)
+
 
 def p_expression_num(p):
     "expression : NUMBER"
     p[0] = p[1]
 
 
+def p_expression_paren(p):
+    "expression : LPAREN expression RPAREN"
+    p[0] = p[2]
+
+
 def p_expression_addop(p):
     "expression : expression ADDOP expression"
-    if p[2] == "\+":
+    if p[2] == "+":
         p[0] = p[1] + p[3]
     elif p[2] == "-":
         p[0] = p[1] - p[3]
-    elif p[2] == "\*":
+
+
+def p_expression_mulop(p):
+    "expression : expression MULOP expression"
+    if p[2] == "*":
         p[0] = p[1] * p[3]
-    elif p[2] == "\/":
+    elif p[2] == "/":
         p[0] = p[1] / p[3]
 
 
