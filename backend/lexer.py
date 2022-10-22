@@ -5,15 +5,26 @@ tokens = (
     "NUMBER",
     "MULOP",
     "ADDOP",
+    "CARET",
     "LPAREN",
     "RPAREN",
     "SUM",
     "LBRACK",
     "RBRACK",
     "UNDERS",
-    "CARET",
     "EQUALS",
+    "AMPER",
+    "BEGIN",
+    "END",
+    "MULTILINE",
+    "BSLASH",
+    "DOUBLEBS",
 )
+
+t_BEGIN = r"begin"
+t_END = r"end"
+
+t_MULTILINE = r"bmatrix"
 
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
@@ -23,7 +34,6 @@ t_RBRACK = r"\}"
 t_EQUALS = r"="
 t_UNDERS = r"\_"
 t_CARET = r"\^"
-
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
 
