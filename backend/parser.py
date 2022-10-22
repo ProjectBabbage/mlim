@@ -12,6 +12,7 @@ precedence = (
 def p_program_assign(p):
     "program : VAR LEFTARROW prog"
     model.State.store[p[1]] = p[3]
+    p[0] = p[3]
 
 
 def p_program_prog(p):
