@@ -88,20 +88,28 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
         setResult(results.join('\n')); 
     }
 
+    function appendAtCursor(value: string): void {
+        let before = lines[currentLineIndex].content.substring(0,currentCursorCol-1)
+        let after = lines[currentLineIndex].content.substring(currentCursorCol-1)
+        
+        lineUpdate(currentLineIndex,`${before}${value}${after}`);
+        setCurrentCursorCol(currentCursorCol+value.length)
+    }
+
     function addSum(): void {
         if(currentLineIndex !== null)
-            lineUpdate(currentLineIndex, `${lines[currentLineIndex].content}\\sum_{i=0}^{n} i*i`)
+            appendAtCursor(`\\sum_{i=0}^{n} i*i`)
 
     }
 
     function addPlus(): void {
         if(currentLineIndex !== null)
-            lineUpdate(currentLineIndex, `${lines[currentLineIndex].content}+`)
+            appendAtCursor(`+`)
     }
 
     function addTimes(): void {
         if(currentLineIndex !== null)
-            lineUpdate(currentLineIndex, `${lines[currentLineIndex].content}\\times`)
+            appendAtCursor(`\\times`)
     }
 
     return (
