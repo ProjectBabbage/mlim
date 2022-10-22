@@ -1,7 +1,6 @@
 import ply.lex as lex
 
 tokens = (
-    "VAR",
     "NUMBER",
     "MULOP",
     "ADDOP",
@@ -41,6 +40,9 @@ t_MULOP = r"\*|/"
 
 t_SUM = r"\\sum"
 
+t_DOUBLEBS = "\\\\"
+t_AMP = "&"
+t_BSLASH = "\\"
 
 t_ignore = "\t "
 
