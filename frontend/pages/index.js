@@ -1,8 +1,11 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import REPL from '../components/repl';
+import Katex from './katex';
+import { useState } from 'react';
 
 export default function Home() {
+  const [currentInput, setCurrentInput] = useState("")
   return (
     <div className={styles.container}>
       <Head>
@@ -12,12 +15,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-      <div className="text-orange-500">
-        Put a REPL here ⬇
-      </div>
-        <textarea rows="30" cols="30">
-          
-        </textarea>
+        <Katex/>
+        <div className="text-orange-500">
+          Put a REPL here ⬇
+        </div>
+        <REPL/>
       </main>
     </div>
   )
