@@ -42,7 +42,6 @@ const createMathComponent = (Component, { displayMode }) => {
           displayMode,
           errorColor,
           throwOnError: !!renderError,
-          output: 'mathml'
         });
 
         return { html, error: undefined };

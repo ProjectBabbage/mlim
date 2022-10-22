@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import REPL from '../components/repl';
 import Katex from './katex';
 import { useState } from 'react';
+import '../node_modules/katex/dist/katex.css'
 
 export default function Home() {
   const [currentInput, setCurrentInput] = useState("")
