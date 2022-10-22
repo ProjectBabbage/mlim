@@ -2,6 +2,7 @@ import {AbstractLine} from "../models/cells";
 import React, {useState, useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
+import Katex from "./Katex";
 
 interface LineProps {
     lineNumber: Number;
@@ -46,13 +47,19 @@ export default function Line({lineNumber, line, lineUpdate}: LineProps) {
     }, [lineNumber, lineUpdate, content]);
 
     return (
-        <div className={`line-container ${focus ? 'focused' : ''}`}>
-            <div className="line-actions">
-                <button className="line-action" onClick={addSum}>Σ</button>
-                <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
-                <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
+        <div>
+            <div>
+                <Katex instruction={content}/>
             </div>
-            <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+            <div className={`line-container ${focus ? 'focused' : ''}`}>
+                <div className="line-actions">
+                    <button className="line-action" onClick={addSum}>Σ</button>
+                    <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
+                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
+
+                </div>
+                <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+            </div>
         </div>
     )
 }
