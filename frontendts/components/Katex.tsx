@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import KaTeX from "katex";
