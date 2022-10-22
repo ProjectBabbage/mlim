@@ -5,6 +5,7 @@ import { useState } from "react";
 import "../node_modules/katex/dist/katex.css";
 import Workspace from "../components/Workspace";
 import { NextPage } from "next";
+import Cells from "../components/Cells";
 
 const Home: NextPage = () => {
   return (
@@ -16,9 +17,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Workspace />
-        <div className="text-orange-500">Put a REPL here ⬇</div>
-        <REPL />
+        <Cells />
       </main>
     </div>
   );

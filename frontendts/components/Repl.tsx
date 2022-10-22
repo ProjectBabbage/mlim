@@ -58,7 +58,7 @@ export default function REPL() {
     return result;
   }
 
-  async function handleKeyPressed(evt) {
+  async function handleKeyPressed(evt: KeyboardEvent) {
     let keyCode = evt.keyCode;
     let key = evt.key;
 
