@@ -1,5 +1,5 @@
 import parser
-from model import State
+from model import State, Value
 
 
 def evaluation(passed_store, file):
@@ -13,5 +13,5 @@ if __name__ == "__main__":
     import sys
 
     file = open(sys.argv[1]).read()
-    st = {"i": 3}
+    st = {"i": Value(1)}
     print(evaluation(st, file))

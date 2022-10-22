@@ -7,10 +7,6 @@ class State:
     context = {}
 
 
-def addtruc():
-    State.context["i"] = 4
-
-
 class Prog:
     def __init__(self, prog: Prog):
         self.prog: Prog = prog
@@ -37,7 +33,7 @@ class Sum(Prog):
 
 
 class Value(Prog):
-    def __init__(self, value: int):
+    def __init__(self, value: float):
         self.value = value
 
     def __call__(self):
@@ -52,7 +48,7 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
-            return State.store[self.var]
+            return State.store[self.var]()
 
 
 class Matrix(Prog):
