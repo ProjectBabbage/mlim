@@ -98,7 +98,9 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
                 <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
             </div>
-            { lines.map((line, i) => <div className="sick-fade-in" key={`${id}${i}`}><Line line={line} lineNumber={i} lineUpdate={lineUpdate} lineFocused={lineFocused}/></div>) }
+            <div className="lines-container">
+                { lines.map((line, i) => <div className="sick-fade-in" key={`${id}${i}`}><Line line={line} lineNumber={i} lineUpdate={lineUpdate} lineFocused={lineFocused}/></div>) }
+            </div>
             <div className="action-container">
                 <div className="flex-grow"></div>
                 <button className="icon-button" type="button" onClick={() => addLine()}>+</button>
