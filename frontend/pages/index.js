@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import REPL from '../components/repl'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -12,12 +13,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-      <div className="text-orange-500">
-        Put a REPL here ⬇
-      </div>
-        <textarea rows="30" cols="30">
-          
-        </textarea>
+        <div className="text-orange-500">
+          Put a REPL here ⬇
+        </div>
+        <REPL/>
       </main>
     </div>
   )
