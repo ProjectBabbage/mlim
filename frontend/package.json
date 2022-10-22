@@ -9,11 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "mathjax-full": "^3.2.2",
+    "katex": "^0.16.2",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-katex": "^3.0.1"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",

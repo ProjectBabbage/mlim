@@ -1,4 +1,4 @@
-import {BlockMath} from 'react-katex';
+import {BlockMath} from '../components/Katex'
 
 export default function Katex() {
     return (
