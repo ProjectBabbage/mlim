@@ -21,8 +21,8 @@ tokens = (
     "VAR",
 )
 
-t_BEGIN = r"begin"
-t_END = r"end"
+t_BEGIN = r"\\begin"
+t_END = r"\\end"
 
 t_MULTILINE = r"bmatrix"
 
