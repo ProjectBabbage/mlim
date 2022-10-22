@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import KaTeX from 'katex';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import KaTeX from "katex";
 
 /**
  * @typedef {import("react").ReactNode} ReactNode
@@ -55,7 +55,11 @@ const createMathComponent = (Component, { displayMode }) => {
     }, [formula, errorColor, renderError]);
 
     if (error) {
-      return renderError ? renderError(error) : <Component html={`${error.message}`} />;
+      return renderError ? (
+        renderError(error)
+      ) : (
+        <Component html={`${error.message}`} />
+      );
     }
 
     return <Component html={html} />;
@@ -76,16 +80,27 @@ const InternalPathComponentPropTypes = {
 };
 
 const InternalBlockMath = ({ html }) => {
-  return <div data-testid="react-katex" dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div data-testid="react-katex" dangerouslySetInnerHTML={{ __html: html }} />
+  );
 };
 
 InternalBlockMath.propTypes = InternalPathComponentPropTypes;
 
 const InternalInlineMath = ({ html }) => {
-  return <span data-testid="react-katex" dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <span
+      data-testid="react-katex"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 };
 
 InternalInlineMath.propTypes = InternalPathComponentPropTypes;
 
-export const BlockMath = createMathComponent(InternalBlockMath, { displayMode: true });
-export const InlineMath = createMathComponent(InternalInlineMath, { displayMode: false });
+export const BlockMath = createMathComponent(InternalBlockMath, {
+  displayMode: true,
+});
+export const InlineMath = createMathComponent(InternalInlineMath, {
+  displayMode: false,
+});
