@@ -30,6 +30,14 @@ t_MULOP = r"\*|/"
 t_SUM = r"\\sum"
 
 
+t_ignore = "\t "
+
+
+def t_newline(t):
+    r"\n+"
+    t.lexer.lineno += len(t.value)
+
+
 def t_VAR(t):
     r"[a-z]+"
     t.value = str(t.value)
@@ -40,9 +48,6 @@ def t_NUMBER(t):
     r"-?\d+(\.\d+)?"
     t.value = float(t.value)
     return t
-
-
-t_ignore = "\t \n"
 
 
 def t_error(t):
