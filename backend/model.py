@@ -1,7 +1,11 @@
 from __future__ import annotations
 from typing import List
+import ourMath
 
-context = {}
+
+class State:
+    store = {}
+    context = {}
 
 
 class Prog:
@@ -24,13 +28,13 @@ class Sum(Prog):
         v_end = int(self.end())
         s = 0
         for k in range(v_init, v_end + 1):
-            context[self.var] = k
+            State.context[self.var] = k
             s += self.body()
         return s
 
 
 class Value(Prog):
-    def __init__(self, value: int):
+    def __init__(self, value: float):
         self.value = value
 
     def __call__(self):
@@ -42,7 +46,10 @@ class Var(Prog):
         self.var = var
 
     def __call__(self):
-        return context[self.var]
+        if self.var in State.context:
+            return State.context[self.var]
+        else:
+            return State.store[self.var]()
 
 
 class Matrix(Prog):
@@ -50,7 +57,16 @@ class Matrix(Prog):
         self.matrix = matrix
 
     def __call__(self):
-        return [[x() for x in line] for line in self.matrix]
+        return Matrix([[x() for x in line] for line in self.matrix])
+
+    def __mul__(self, b):
+        return ourMath.mulMatrix(self.matrix, b.matrix)
+
+    def __add__(self, b):
+        return ourMath.addMatrix(self.matrix, b.matrix)
+
+    def __repr__(self):
+        return str(self.matrix)
 
 
 class BinOp(Prog):
@@ -65,6 +81,12 @@ class BinOp(Prog):
         elif self.op == "-":
             return self.left() - self.right()
         elif self.op == "*":
+            if type(self.right()) == Matrix and type(self.left()) == float:
+                return ourMath.mulMatrixbyScalar(self.right().matrix, self.left())
+            elif type(self.left()) == Matrix and type(self.right()) == float:
+                return ourMath.mulMatrixbyScalar(self.left().matrix, self.right())
             return self.left() * self.right()
         elif self.op == "/":
+            if type(self.left()) == Matrix and type(self.right()) == float:
+                return ourMath.divMatrixbyScalar(self.left().matrix, self.right())
             return self.left() / self.right()

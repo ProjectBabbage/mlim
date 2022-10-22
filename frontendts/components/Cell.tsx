@@ -112,6 +112,11 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
             appendAtCursor(`\\times`)
     }
 
+    function addArrow(): void {
+        if(currentLineIndex !== null)
+            appendAtCursor(`\\leftarrow`)
+    }
+
     return (
         <div className="cell-component">
             <div className="cell-header">

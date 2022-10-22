@@ -9,6 +9,17 @@ precedence = (
 )
 
 
+def p_program_assign(p):
+    "program : VAR LEFTARROW prog"
+    model.State.store[p[1]] = p[3]
+    p[0] = p[3]
+
+
+def p_program_prog(p):
+    "program : prog"
+    p[0] = p[1]
+
+
 def p_prog_addop(p):
     "prog : prog ADDOP prog"
     p[0] = model.BinOp(p[1], p[2], p[3])

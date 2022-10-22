@@ -22,6 +22,7 @@ tokens = [
     "DOUBLEBS",
     "BSLASH",
     "VAR",
+    "LEFTARROW",
 ] + list(reserved.values())
 
 t_LPAREN = r"\("
@@ -29,6 +30,7 @@ t_RPAREN = r"\)"
 t_LBRACK = r"\{"
 t_RBRACK = r"\}"
 
+t_LEFTARROW = r"\\leftarrow"
 t_EQUALS = r"="
 t_UNDERS = r"\_"
 t_CARET = r"\^"
@@ -67,3 +69,17 @@ def t_error(t):
 
 
 lex.lex()
+
+
+if __name__ == "__main__":
+    import sys
+
+    prog = open(sys.argv[1]).read()
+
+    lex.input(prog)
+
+    while 1:
+        tok = lex.token()
+        if not tok:
+            break
+        print("line %d : %s (% s)" % (tok.lineno, tok.type, tok.value))
