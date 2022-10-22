@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { KEYCODES, NON_PRINTABLE_KEYS } from "../constants/keys";
 import Katex from "../pages/katex";
 
 export default function REPL() {
@@ -60,29 +61,28 @@ export default function REPL() {
     async function handleKeyPressed(evt){
         let keyCode = evt.keyCode
         let key = evt.key
-        if(toggled){
-            if( 
-                48 < keyCode && keyCode < 112 || 
-                159 < keyCode && keyCode < 174 ||
+
+        if(toggled && !NON_PRINTABLE_KEYS.includes(keyCode)) {
+            if(
+                47 < keyCode && keyCode < 112 ||
+                159 < keyCode && keyCode < 177 ||
                 183 < keyCode && keyCode < 224 ||
-                keyCode == 32
-                )
+                keyCode == KEYCODES.SPACE
+            ) {
                 setContent(content + key)
-            if(keyCode === 8)       // DELETE
+            } else if (keyCode === KEYCODES.BACKSPACE) {
                 setContent(content.substring(0, content.length - 1))
-            if(keyCode === 13 && content.length){     // ENTER
+            } else if (keyCode === KEYCODES.ENTER && content.length) {
                 history.push([true, content])
                 history.push([false, await callApi(content)])
                 clearHistoryIndex()
                 setContent("")
-            }
-            if(keyCode === 38 && history.length){  // ARROW UP
+            } else if (keyCode === KEYCODES.ARROW_UP && history.length) {
                 if(historyIndex > 0){
                     setContent(history[historyIndex - 1][1])
                     setHistoryIndex(historyIndex - 1)
                 }
-            }
-            if(keyCode === 40){     // ARROW DOWN
+            } else if(keyCode === KEYCODES.ARROW_DOWN) {     // ARROW DOWN
                 if(historyIndex < history.length - 1){
                     setContent(history[historyIndex + 1][1])
                     setHistoryIndex(historyIndex + 1)
