@@ -1,6 +1,16 @@
 import ply.lex as lex
 
-tokens = ("NUMBER", "MULOP", "ADDOP", "LPAREN", "RPAREN", "SUM", "LBRACK", "RBRACK", "UNDERS")
+tokens = (
+    "NUMBER",
+    "MULOP",
+    "ADDOP",
+    "LPAREN",
+    "RPAREN",
+    "SUM",
+    "LBRACK",
+    "RBRACK",
+    "UNDERS",
+)
 
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
@@ -8,6 +18,7 @@ t_LBRACK = r"\{"
 t_RBRACK = r"\}"
 
 t_UNDERS = r"\_"
+t_CARET = r"^"
 
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"

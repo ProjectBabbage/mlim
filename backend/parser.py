@@ -19,6 +19,9 @@ def p_expression_paren(p):
     p[0] = p[2]
 
 
+apzoei
+
+
 def p_expression_addop(p):
     "expression : expression ADDOP expression"
     if p[2] == "+":
