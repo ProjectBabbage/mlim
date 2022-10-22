@@ -33,7 +33,7 @@ class Matrix(Prog):
         self.matrix = matrix
 
     def __call__(self):
-        return [[x() for x in line] for line in self.cells]
+        return [[x() for x in line] for line in self.matrix]
 
 
 class BinOp(Prog):
