@@ -1,20 +1,21 @@
 import {AbstractLine} from "../models/cells";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 interface LineProps {
+    lineNumber: Number;
     line: AbstractLine;
+    lineUpdate: Function;
 }
 
-export default function Line(props: LineProps) {
-    const [text, setText] = useState(props.line.content);
+export default function Line({lineNumber, line, lineUpdate}: LineProps) {
+    const [content, setContent] = useState(line.content);
     const [focus, setFocus] = useState(false);
     const textArea = React.createRef<HTMLTextAreaElement>();
 
     function handleChange(event: any): void {
-        setText(event.target.value);
-        console.log('Content changed')
+        setContent(event.target.value);
     }
 
     function onFocus(): void {
@@ -26,19 +27,23 @@ export default function Line(props: LineProps) {
     }
 
     function addSum(): void {
-        setText(`${text}\\sum`);
+        setContent(`${content}\\sum`);
         textArea.current?.select();
     }
 
     function addPlus(): void {
-        setText(`${text}+`);
+        setContent(`${content}+`);
         textArea.current?.select();
     }
 
     function addTimes(): void {
-        setText(`${text}\\times`);
+        setContent(`${content}\\times`);
         textArea.current?.select();
     }
+
+    useEffect(()=>{
+        lineUpdate(lineNumber, content);
+    }, [lineNumber, lineUpdate, content]);
 
     return (
         <div className={`line-container ${focus ? 'focused' : ''}`}>
@@ -47,7 +52,7 @@ export default function Line(props: LineProps) {
                 <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
                 <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
             </div>
-            <textarea ref={textArea} className="line-area" onChange={handleChange} value={text} onFocus={onFocus} onBlur={onBlur}></textarea>
+            <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
         </div>
     )
 }
