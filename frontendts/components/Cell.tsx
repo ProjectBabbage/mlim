@@ -1,8 +1,9 @@
-import {Cell} from "../models/cells";
+import { Cell } from "../models/cells";
 import Line from "./Line";
-import {useContext, useState, createContext} from "react";
-import {LineFactory} from "../services/line-factory";
-import { join } from "path";
+import { useState } from "react";
+import { LineFactory } from "../services/line-factory";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CellProps {
     id: number;
@@ -36,9 +37,12 @@ export default function CellComponent({id, cell, callApi}: CellProps) {
 
     return (
         <div className="cell-component">
-            <h2>Cell #{id}</h2>
-            
-            <div className="border" onClick={execLines}>Execute</div>
+            <div className="cell-header">
+                <h2>Cell #{id}</h2>
+                <div onClick={execLines}>
+                    <FontAwesomeIcon className="play-icon" icon={faPlay} />
+                </div>
+            </div>
             { lines.map((line, i) => <div className="sick-fade-in" key={i}><Line line={line} lineNumber={i} lineUpdate={lineUpdate}/></div>) }
             <div className="action-container">
                 <div className="flex-grow"></div>

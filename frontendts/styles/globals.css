@@ -134,3 +134,12 @@ h2 {
   font-size: 16px;
   font-weight: 800;
 }
+
+.cell-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.play-icon {
+  color: rgb(81, 190, 81);
+}
