@@ -16,7 +16,8 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
     const [result, setResult] = useState('');
     const [lines, setLines] = useState(cell.lines);
     const [editorEnabled, setEditorEnabled] = useState(true);
-    const [currentLineIndex, setCurrentLineIndex] = useState<number | null>(null);
+    const [currentLineIndex, setCurrentLineIndex] = useState<number>(0);
+    const [currentCursorCol, setCurrentCursorCol] = useState<number>(0);
 
     function toggleEditor(): void {
         setEditorEnabled(!editorEnabled)
@@ -25,7 +26,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
     const addLine = () => {
         const newLine = LineFactory.createCodeLine();
         setLines([...lines, newLine]);
-        setCurrentLineIndex(currentLineIndex ? currentLineIndex + 1 : 0)
+        setCurrentLineIndex(currentLineIndex + 1)
     }
 
     const lineUpdate = (lineIndex: number, content: string) => {
@@ -69,6 +70,12 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
     const previousLine = () => {
         if(currentLineIndex && currentLineIndex > 0){
             setCurrentLineIndex(currentLineIndex - 1)
+        }
+    }
+
+    const cursorPositionMoved = (lineNumber: number, cursorPosition: number) => {
+        if(lineNumber==currentLineIndex){
+            setCurrentCursorCol(cursorPosition)
         }
     }
 
@@ -124,7 +131,9 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                             lineFocused={lineFocused} 
                             nextLine={nextLine}
                             previousLine={previousLine}
-                            shouldFocus={i === currentLineIndex}/>
+                            shouldFocus={i === currentLineIndex}
+                            cursorPositionUpdate={cursorPositionMoved}
+                            cursorPosition={currentCursorCol}/>
                     </div>) }
             </div>
             <div className="action-container">

@@ -4,23 +4,27 @@ import Katex from "./Katex";
 
 interface LineProps {
     lineNumber: Number;
+    cursorPosition: number;
     line: AbstractLine;
     lineUpdate: Function;
     lineFocused: Function;
     nextLine: Function;
     previousLine: Function;
+    cursorPositionUpdate: Function
     shouldFocus: boolean
 }
 
-export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLine, previousLine, shouldFocus}: LineProps) {
+export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLine, previousLine, shouldFocus, cursorPositionUpdate, cursorPosition}: LineProps) {
     const [content, setContent] = useState(line.content);
     const [focus, setFocus] = useState(shouldFocus);
-    const [editorEnabled, setEditorEnabled] = useState(shouldFocus);
+    const [editorEnabled, setEditorEnabled] = useState(true);
 
     const textArea = React.createRef<HTMLInputElement>();
 
     function handleChange(event: any): void {
         lineUpdate(lineNumber, event.target.value);
+        if(textArea.current)
+            cursorPositionUpdate(lineNumber, textArea.current.selectionStart)
     }
 
     function handleKeyDown(event: any): void {
@@ -33,6 +37,8 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
                 previousLine();
                 break;
         }
+        if(textArea.current)
+            cursorPositionUpdate(lineNumber, textArea.current.selectionStart)
     }
 
     function onFocus(): void {
@@ -58,6 +64,13 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
     useEffect(() => {
         setContent(line.content)
     }, [line.content])
+
+    useEffect(() => {
+        if(textArea.current){
+            textArea.current.selectionStart = cursorPosition
+            textArea.current.selectionEnd = cursorPosition
+        }
+    }, [textArea, cursorPosition])
 
     return (
         <div>
