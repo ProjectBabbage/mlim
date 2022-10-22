@@ -15,6 +15,7 @@ interface LineProps {
 export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLine, previousLine, shouldFocus}: LineProps) {
     const [content, setContent] = useState(line.content);
     const [focus, setFocus] = useState(shouldFocus);
+    const [editorEnabled, setEditorEnabled] = useState(shouldFocus);
 
     const textArea = React.createRef<HTMLInputElement>();
 
@@ -43,6 +44,10 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
         setFocus(false);
     }
 
+    function toggleEditor(): void{
+        setEditorEnabled(!editorEnabled)
+    }
+
     useEffect(() => {
         if(textArea.current && shouldFocus)
             textArea.current.focus()
@@ -56,9 +61,10 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
 
     return (
         <div>
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" onClick={() => toggleEditor()}>
                 <Katex instruction={content}/>
             </div>
+            { (editorEnabled || content.length === 0) &&
             <div className={`line-container ${focus ? 'focused' : ''}`}>
                 <input 
                     type="text" 
@@ -69,8 +75,10 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
                     value={content} 
                     onFocus={onFocus} 
                     onBlur={onBlur}
+                    placeholder="fill me up !"
                 />
             </div>
+            }
         </div>
     )
 }

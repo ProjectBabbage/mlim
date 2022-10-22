@@ -100,11 +100,11 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
     return (
         <div className="cell-component">
             <div className="cell-header">
-                <div className="text-red-500" onClick={() => deleteCell(id)}>
+                <div className="text-red-500 cursor-pointer" onClick={() => deleteCell(id)}>
                     <FontAwesomeIcon icon={faTrashCan} />
                 </div>            
                 <h2>Cell #{id}</h2>
-                <div onClick={execLines}>
+                <div className="cursor-pointer" onClick={execLines}>
                     <FontAwesomeIcon className="play-icon" icon={faPlay} />
                 </div>
             </div>
@@ -115,7 +115,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
             </div>
             <div className="lines-container">
-                { lines.map((line, i) => 
+                { editorEnabled && lines.map((line, i) => 
                     <div className="sick-fade-in" key={`${id}${i}`}>
                         <Line
                             line={line} 
