@@ -1,3 +1,4 @@
+import traceback
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,17 +24,19 @@ async def root():
 async def code(json: dict):
     response = ""
     try:
-        command = json['code']
+        command = json["code"]
         if "=" in command:
             command = command.split("=")
             evaluable = command[1]
-            store = command[0]
+            store = command[0].strip()
         else:
             evaluable = command
             store = "_"
+
         response = eval(evaluable)
         STATE[store] = response
     except Exception:
+        traceback.print_exc()
         response = "That didn't mean anything to me"
     finally:
         return {"STATE": STATE, "RESULT": response}
