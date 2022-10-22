@@ -1,7 +1,14 @@
 from __future__ import annotations
 from typing import List
 
-context = {}
+
+class State:
+    store = {}
+    context = {}
+
+
+def addtruc():
+    State.context["i"] = 4
 
 
 class Prog:
@@ -24,7 +31,7 @@ class Sum(Prog):
         v_end = int(self.end())
         s = 0
         for k in range(v_init, v_end + 1):
-            context[self.var] = k
+            State.context[self.var] = k
             s += self.body()
         return s
 
@@ -42,7 +49,10 @@ class Var(Prog):
         self.var = var
 
     def __call__(self):
-        return context[self.var]
+        if self.var in State.context:
+            return State.context[self.var]
+        else:
+            return State.store[self.var]
 
 
 class Matrix(Prog):

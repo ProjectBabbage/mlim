@@ -22,6 +22,7 @@ tokens = [
     "DOUBLEBS",
     "BSLASH",
     "VAR",
+    "LEFTARROW",
 ] + list(reserved.values())
 
 t_LPAREN = r"\("
@@ -29,6 +30,7 @@ t_RPAREN = r"\)"
 t_LBRACK = r"\{"
 t_RBRACK = r"\}"
 
+t_LEFTARROW = r"\\leftarrow"
 t_EQUALS = r"="
 t_UNDERS = r"\_"
 t_CARET = r"\^"
