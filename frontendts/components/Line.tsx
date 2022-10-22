@@ -20,7 +20,7 @@ export default class Line extends React.Component<LineProps, any> {
     render() {
         return (
             <div>
-                <textarea value={this.state.value} onChange={this.handleChange}></textarea>
+                <textarea className="line-area" value={this.state.value} onChange={this.handleChange}></textarea>
             </div>
         )
     }

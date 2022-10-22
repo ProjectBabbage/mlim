@@ -28,3 +28,43 @@ a {
     background: black;
   }
 }
+
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.container {
+  width: 800px;
+}
+
+.action-container {
+  display: flex;
+  width: 100%;
+  align-items: end;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+button {
+  border-radius: 3px;
+  border: solid 1px black;
+  background: #868686;
+  padding: 4px;
+}
+
+.line-area {
+  border: solid 1px rgba(79, 79, 79, 0.6);
+  border-radius: 3px;
+  width: 100%;
+  padding: 8px 16px;
+}
