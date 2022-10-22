@@ -43,7 +43,7 @@ t_DOUBLEBS = r"\\\\"
 t_AMPER = r"&"
 t_BSLASH = r"\\"
 
-t_ignore = r"\t "
+t_ignore = "\t "
 
 
 def t_newline(t):
