@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import REPL from "../components/repl";
+import REPL from "../components/Repl";
 import { useState } from "react";
 import "../node_modules/katex/dist/katex.css";
 import Workspace from "../components/Workspace";

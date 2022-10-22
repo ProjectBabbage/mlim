@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { KEYCODES, NON_PRINTABLE_KEYS } from "../constants/keys";
-import Katex from "../pages/katex";
+import Katex from "./Katex";
 
 export default function REPL() {
   const [toggled, setToggled] = useState(false);

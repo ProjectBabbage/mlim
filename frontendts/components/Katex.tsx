@@ -58,21 +58,22 @@ const createMathComponent = (Component, { displayMode }) => {
       return renderError ? (
         renderError(error)
       ) : (
-        <Component html={`${error.message}`} />
+        <Component html= {`${error.message}`
+    } />
       );
     }
 
-    return <Component html={html} />;
+return <Component html={ html } />;
   };
 
-  MathComponent.propTypes = {
-    children: PropTypes.string,
-    errorColor: PropTypes.string,
-    math: PropTypes.string,
-    renderError: PropTypes.func,
-  };
+MathComponent.propTypes = {
+  children: PropTypes.string,
+  errorColor: PropTypes.string,
+  math: PropTypes.string,
+  renderError: PropTypes.func,
+};
 
-  return MathComponent;
+return MathComponent;
 };
 
 const InternalPathComponentPropTypes = {
@@ -81,7 +82,8 @@ const InternalPathComponentPropTypes = {
 
 const InternalBlockMath = ({ html }) => {
   return (
-    <div data-testid="react-katex" dangerouslySetInnerHTML={{ __html: html }} />
+    <div data-testid= "react-katex" dangerouslySetInnerHTML = {{ __html: html }
+} />
   );
 };
 
@@ -90,9 +92,10 @@ InternalBlockMath.propTypes = InternalPathComponentPropTypes;
 const InternalInlineMath = ({ html }) => {
   return (
     <span
-      data-testid="react-katex"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+      data-testid= "react-katex"
+  dangerouslySetInnerHTML = {{ __html: html }
+}
+/>
   );
 };
 
@@ -104,3 +107,15 @@ export const BlockMath = createMathComponent(InternalBlockMath, {
 export const InlineMath = createMathComponent(InternalInlineMath, {
   displayMode: false,
 });
+
+interface KatexProps {
+  instruction: string
+}
+
+export default function Katex(props: KatexProps) {
+  return (
+    <div>
+    <BlockMath math= { props.instruction } />
+    </div>
+  )
+}

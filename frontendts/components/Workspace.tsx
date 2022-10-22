@@ -1,4 +1,4 @@
-import REPL from "./repl";
+import REPL from "./Repl";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type CellsType = Array<JSX.Element>;
