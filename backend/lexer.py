@@ -19,7 +19,6 @@ tokens = (
     "BSLASH",
     "DOUBLEBS",
     "VAR",
-    "EQUALS",
 )
 
 t_BEGIN = r"begin"

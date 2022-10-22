@@ -78,7 +78,6 @@ def p_line_list(p):
         p[0] = [p[1]] + p[3]
     elif len(p) == 2:
         p[0] = [p[1]]
-        print(p[0])
 
 
 def p_error(p):
