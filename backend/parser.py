@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 
-from lexer import tokens
+from lexer import tokens  # noqa: F401
 
 
 def p_expression_num(p):
