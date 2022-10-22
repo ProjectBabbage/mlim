@@ -62,11 +62,23 @@ button {
   padding: 4px;
 }
 
+@keyframes append-animate-right {
+  from {
+    transform: translate(60px, 0px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 .line-area {
   border: solid 1px rgba(79, 79, 79, 0.6);
   border-radius: 3px;
   width: 100%;
   padding: 8px 16px;
+  animation: append-animate-right .5s cubic-bezier(.72,.05,.36,1.02);
 }
 
 .icon-button {

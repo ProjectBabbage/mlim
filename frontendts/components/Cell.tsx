@@ -17,7 +17,7 @@ export default function CellComponent(props: CellProps) {
     }
 
     return (
-        <div>
+        <div className="cell-component">
             <h2>Cell #{props.id}</h2>
             { lines.map((line, i) => <Line line={line} key={i}></Line>) }
             <div className="action-container">
