@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Katex from "../pages/katex";
 
 export default function REPL() {
     const [toggled, setToggled] = useState(false);
@@ -100,6 +101,9 @@ export default function REPL() {
                     Available vars ( use STATE["var_name"] )
                 </div>
                 {varsDisplay}
+            </div>
+            <div>
+                <Katex instruction={content}/>
             </div>
         <div 
             className={`
