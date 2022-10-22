@@ -1,6 +1,12 @@
 import ply.lex as lex
 
-tokens = (
+reserved = {
+    "begin": "BEGIN",
+    "end": "END",
+    "bmatrix": "MULTILINE",
+}
+
+tokens = [
     "NUMBER",
     "MULOP",
     "ADDOP",
@@ -13,18 +19,10 @@ tokens = (
     "UNDERS",
     "EQUALS",
     "AMPER",
-    "BEGIN",
-    "END",
-    "MULTILINE",
-    "BSLASH",
     "DOUBLEBS",
+    "BSLASH",
     "VAR",
-)
-
-t_BEGIN = r"\\begin"
-t_END = r"\\end"
-
-t_MULTILINE = r"bmatrix"
+] + list(reserved.values())
 
 t_LPAREN = r"\("
 t_RPAREN = r"\)"
@@ -36,25 +34,25 @@ t_UNDERS = r"\_"
 t_CARET = r"\^"
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
-
+t_BSLASH = r"\\"
 t_SUM = r"\\sum"
 
 t_DOUBLEBS = r"\\\\"
 t_AMPER = r"&"
-t_BSLASH = r"\\"
 
 t_ignore = "\t "
+
+
+def t_VAR(t):
+    r"[a-z]+"
+    t.type = reserved.get(t.value, "VAR")
+    t.value = str(t.value)
+    return t
 
 
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
-
-
-def t_VAR(t):
-    r"[a-z]+"
-    t.value = str(t.value)
-    return t
 
 
 def t_NUMBER(t):
