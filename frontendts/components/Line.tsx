@@ -1,27 +1,20 @@
 import {AbstractLine} from "../models/cells";
-import React from "react";
+import React, {useState} from "react";
 
 interface LineProps {
     line: AbstractLine;
 }
 
-export default class Line extends React.Component<LineProps, any> {
-    constructor(props: LineProps) {
-        super(props);
+export default function Line(props: LineProps) {
+    const [text, setText] = useState(props.line.content);
 
-        this.state = {value: props.line.content};
-        this.handleChange = this.handleChange.bind(this);
+    function handleChange(event: any): void {
+        setText(event.target.value);
     }
 
-    handleChange(event: any): void {
-        this.setState({value: event.target.value});
-    }
-
-    render() {
-        return (
-            <div>
-                <textarea className="line-area" value={this.state.value} onChange={this.handleChange}></textarea>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <textarea className="line-area" value={text} onChange={handleChange}></textarea>
+        </div>
+    )
 }
