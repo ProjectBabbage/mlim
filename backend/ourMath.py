@@ -54,3 +54,10 @@ def addMatrix(A, B):
         for j in range(len(A[0])):
             C[i][j] = A[i][j] + B[i][j]
     return model.Matrix(C)
+
+
+def selectCell(A, i, j):
+    if len(A) < i or len(A[0]) < j:
+        return ""
+    c = A[i][j]
+    return c

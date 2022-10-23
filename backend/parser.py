@@ -1,3 +1,4 @@
+from ast import Store
 import ply.yacc as yacc
 import model
 
@@ -101,6 +102,11 @@ def p_line_list(p):
         p[0] = [p[1]] + p[3]
     elif len(p) == 2:
         p[0] = [p[1]]
+
+
+def p_literal_cell(p):
+    "literal : VAR UNDERS LBRACK prog COMMA prog RBRACK"
+    p[0] = model.State.store[p[1]][p[3]][p[5]]
 
 
 def p_error(p):
