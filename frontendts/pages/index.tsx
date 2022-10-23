@@ -8,8 +8,8 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>M L I M</title>
-        <meta name="description" content="M L I M" />
+        <title>MLim</title>
+        <meta name="description" content="MLimproved" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

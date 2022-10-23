@@ -56,7 +56,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
         setLines(l);
     }
 
-    const lineFocused = (line: AbstractLine, index: number) => {
+    const lineFocused = (index: number) => {
         setCurrentLineIndex(index)
     }
     
@@ -65,6 +65,13 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
             addLine()
         else
             setCurrentLineIndex(currentLineIndex === null ? 0 : currentLineIndex + 1);
+    }
+
+    const lineDelete = (i: number) => {
+        if(currentLineIndex===0) return;
+        lines.splice(i, 1);
+        setLines([...lines]);
+        previousLine();
     }
 
     const previousLine = () => {
@@ -102,16 +109,6 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
 
     }
 
-    function addPlus(): void {
-        if(currentLineIndex !== null)
-            appendAtCursor(` + `)
-    }
-
-    function addTimes(): void {
-        if(currentLineIndex !== null)
-            appendAtCursor(` \\times `)
-    }
-
     function addProduct(): void {
         if(currentLineIndex !== null)
             appendAtCursor(` \\prod_{i=1}^{n} i `)
@@ -137,8 +134,6 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                 <button className="line-action font-bold" onClick={addArrow}>⟵</button>
                 <button className="line-action" onClick={addSum}>Σ</button>
                 <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
-                <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
-                <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
             </div>
             <div className="lines-container">
@@ -147,7 +142,8 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                         <Line
                             line={line} 
                             lineNumber={i} 
-                            lineUpdate={lineUpdate} 
+                            lineUpdate={lineUpdate}
+                            lineDelete={lineDelete}
                             lineFocused={lineFocused} 
                             nextLine={nextLine}
                             previousLine={previousLine}
@@ -155,10 +151,6 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                             cursorPositionUpdate={cursorPositionMoved}
                             cursorPosition={currentCursorCol}/>
                     </div>) }
-            </div>
-            <div className="action-container">
-                <div className="flex-grow"></div>
-                <button className="icon-button" type="button" onClick={() => addLine()}>+</button>
             </div>
             <div>
                 <pre>{result}</pre>

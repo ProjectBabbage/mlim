@@ -7,6 +7,7 @@ interface LineProps {
     cursorPosition: number;
     line: AbstractLine;
     lineUpdate: Function;
+    lineDelete: Function;
     lineFocused: Function;
     nextLine: Function;
     previousLine: Function;
@@ -14,7 +15,7 @@ interface LineProps {
     shouldFocus: boolean
 }
 
-export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLine, previousLine, shouldFocus, cursorPositionUpdate, cursorPosition}: LineProps) {
+export default function Line({lineNumber, line, lineUpdate, lineDelete, lineFocused, nextLine, previousLine, shouldFocus, cursorPositionUpdate, cursorPosition}: LineProps) {
     const [content, setContent] = useState(line.content);
     const [focus, setFocus] = useState(shouldFocus);
     const [editorEnabled, setEditorEnabled] = useState(true);
@@ -30,20 +31,23 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
     function handleKeyDown(event: any): void {
         let key = event.key
         switch(key){
-            case "ArrowDown":
+            case "Enter":
                 nextLine();
                 break;
-            case "ArrowUp":
-                previousLine();
+            case "Backspace":
+                if(content==''){
+                    lineDelete();
+                }
                 break;
         }
         if(textArea.current)
             cursorPositionUpdate(lineNumber, textArea.current.selectionStart)
     }
 
-    function onFocus(): void {
+    function onClick(): void {
+        console.log(lineNumber)
         setFocus(true);
-        lineFocused(line, lineNumber)
+        lineFocused(lineNumber)
     }
 
     function onBlur(): void {
@@ -85,8 +89,8 @@ export default function Line({lineNumber, line, lineUpdate, lineFocused, nextLin
                     className="line-area" 
                     onChange={handleChange} 
                     onKeyDown={handleKeyDown}
-                    value={content} 
-                    onFocus={onFocus} 
+                    value={content}
+                    onClick={onClick}
                     onBlur={onBlur}
                     placeholder="fill me up !"
                 />
