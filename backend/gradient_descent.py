@@ -32,6 +32,8 @@ def perform_gradient_descent(
             last_position_value,
             step_size / 4,
             step_iteration + 1,
+            seen_positions,
+            seen_values,
         )
 
     if left_value < right_value:
@@ -58,8 +60,8 @@ def perform_gradient_descent(
             right_value,
             step_size / 2,
             step_iteration + 1,
-            seen_positions.append(right),
-            seen_values.append(right_value),
+            seen_positions,
+            seen_values,
         )
 
 
