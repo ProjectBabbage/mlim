@@ -129,6 +129,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
                 </div>
             </div>
             <div className="line-actions">
+                <button className="line-action font-bold" onClick={addArrow}>⟵</button>
                 <button className="line-action" onClick={addSum}>Σ</button>
                 <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
                 <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
