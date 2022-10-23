@@ -77,9 +77,9 @@ lex.lex()
 if __name__ == "__main__":
     import sys
 
-    prog = open(sys.argv[1]).read()
+    input_tex = open(sys.argv[1]).read()
 
-    lex.input(prog)
+    lex.input(input_tex)
 
     while 1:
         tok = lex.token()
