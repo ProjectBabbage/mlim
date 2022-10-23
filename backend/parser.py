@@ -106,7 +106,7 @@ def p_line_list(p):
 
 def p_literal_cell(p):
     "literal : VAR UNDERS LBRACK prog COMMA prog RBRACK"
-    p[0] = model.State.store[p[1]][p[3]][p[5]]
+    p[0] = model.Cell(model.State.store[p[1]], p[4], p[6])
 
 
 def p_error(p):

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ctypes import Union
 from typing import List
 import ourMath
 
@@ -108,6 +109,17 @@ class Matrix(Prog):
 
     def __repr__(self):
         return str(self.matrix)
+
+
+class Cell(Prog):
+    def __init__(self, var: Matrix, i: Prog, j: Prog):
+        self.var = var
+        self.i = i
+        self.j = j
+
+    def __call__(self):
+        print(self.var.matrix)
+        return ourMath.selectCell(self.var.matrix, self.i(), self.j())
 
 
 class BinOp(Prog):
