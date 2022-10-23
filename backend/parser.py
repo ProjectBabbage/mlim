@@ -1,4 +1,3 @@
-from ast import Store
 import ply.yacc as yacc
 import model
 

@@ -17,6 +17,6 @@ if __name__ == "__main__":
     import sys
 
     input_tex = open(sys.argv[1]).read()
-    st = {"A": Matrix([[5 + 1, 7], [8, 9]])}
-    #    st = {"i": Value(1.0)}
-    print(evaluation(st, input_tex))
+    st_matrix_cell = {"A": Matrix([[5 + 1, 7], [8, 9]])}
+    st = {"i": Value(1.0)}
+    print(evaluation(st_matrix_cell, input_tex))
