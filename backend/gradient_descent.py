@@ -77,7 +77,3 @@ def wrapper(fct_to_descent):
         [starting_pos],
         [fct_to_descent(starting_pos)],
     )
-
-
-# To call perform_gradient_descent:
-# (Function to descent, Starting Position, None, Step_Size, 0, [0], [Function to descent(0)])
