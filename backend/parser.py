@@ -62,7 +62,7 @@ def p_mulprog_lit(p):
 
 def p_literal_call(p):
     "literal : VAR LPAREN prog RPAREN"
-    p[0] = model.State.Call(p[1], p[3])
+    p[0] = model.Call(p[1], p[3])
 
 
 def p_literal_paren(p):

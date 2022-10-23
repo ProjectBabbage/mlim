@@ -69,12 +69,37 @@ export default function Line({lineNumber, line, lineUpdate, lineDelete, lineFocu
         setContent(line.content)
     }, [line.content])
 
+<<<<<<< HEAD
     useEffect(() => {
         if(textArea.current){
             textArea.current.selectionStart = cursorPosition
             textArea.current.selectionEnd = cursorPosition
         }
     }, [textArea, cursorPosition])
+||||||| parent of 202f4d6 (feat: calls)
+    function addTimes(): void {
+        setContent(`${content}\\times`);
+        textArea.current?.select();
+    }
+
+    useEffect(()=>{
+        lineUpdate(lineNumber, content);
+    }, [lineNumber, lineUpdate, content]);
+=======
+   function addMapsto(): void {
+        setContent(`${content} \\mapsto `);
+        textArea.current?.select();
+    }
+
+    function addTimes(): void {
+        setContent(`${content}\\times`);
+        textArea.current?.select();
+    }
+
+    useEffect(()=>{
+        lineUpdate(lineNumber, content);
+    }, [lineNumber, lineUpdate, content]);
+>>>>>>> 202f4d6 (feat: calls)
 
     return (
         <div>
@@ -83,6 +108,7 @@ export default function Line({lineNumber, line, lineUpdate, lineDelete, lineFocu
             </div>
             { (editorEnabled || content.length === 0) &&
             <div className={`line-container ${focus ? 'focused' : ''}`}>
+<<<<<<< HEAD
                 <input 
                     type="text" 
                     ref={textArea} 
@@ -94,6 +120,26 @@ export default function Line({lineNumber, line, lineUpdate, lineDelete, lineFocu
                     onBlur={onBlur}
                     placeholder="fill me up !"
                 />
+||||||| parent of 202f4d6 (feat: calls)
+                <div className="line-actions">
+                    <button className="line-action" onClick={addSum}>Σ</button>
+                    <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
+                    {/* <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
+                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button> */}
+
+                </div>
+                <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+=======
+                <div className="line-actions">
+                    <button className="line-action" onClick={addSum}>Σ</button>
+                    <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
+                    <button className="line-action font-bold" onClick={addMapsto}>↦</button>
+                    {/* <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
+                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button> */}
+
+                </div>
+                <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+>>>>>>> 202f4d6 (feat: calls)
             </div>
             }
         </div>

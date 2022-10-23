@@ -7,7 +7,7 @@ def evaluation(passed_store, input_tex):
     prog = parser.yacc.parse(input_tex)
     try:
         ret_value = prog()
-    except KeyError:
+    except:  # noqa : E712
         ret_value = prog
     passed_store = State.store
     return ret_value
