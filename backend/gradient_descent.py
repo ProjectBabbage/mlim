@@ -1,4 +1,4 @@
-MAX_STEP = 25
+MAX_STEP = 30
 EPSILON = 0.001
 
 
@@ -61,6 +61,22 @@ def perform_gradient_descent(
             seen_positions.append(right),
             seen_values.append(right_value),
         )
+
+
+def wrapper(fct_to_descent):
+    starting_pos = 0
+    step_size = 20
+    iteration = 0
+
+    return perform_gradient_descent(
+        fct_to_descent,
+        starting_pos,
+        None,
+        step_size,
+        iteration,
+        [starting_pos],
+        [fct_to_descent(starting_pos)],
+    )
 
 
 # To call perform_gradient_descent:
