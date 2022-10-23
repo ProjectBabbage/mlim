@@ -1,71 +1,101 @@
 import {AbstractLine} from "../models/cells";
 import React, {useState, useEffect} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
 import Katex from "./Katex";
 
 interface LineProps {
     lineNumber: Number;
+    cursorPosition: number;
     line: AbstractLine;
     lineUpdate: Function;
+    lineDelete: Function;
+    lineFocused: Function;
+    nextLine: Function;
+    previousLine: Function;
+    cursorPositionUpdate: Function
+    shouldFocus: boolean
 }
 
-export default function Line({lineNumber, line, lineUpdate}: LineProps) {
+export default function Line({lineNumber, line, lineUpdate, lineDelete, lineFocused, nextLine, previousLine, shouldFocus, cursorPositionUpdate, cursorPosition}: LineProps) {
     const [content, setContent] = useState(line.content);
-    const [focus, setFocus] = useState(false);
-    const textArea = React.createRef<HTMLTextAreaElement>();
+    const [focus, setFocus] = useState(shouldFocus);
+    const [editorEnabled, setEditorEnabled] = useState(true);
+
+    const textArea = React.createRef<HTMLInputElement>();
 
     function handleChange(event: any): void {
-        setContent(event.target.value);
+        lineUpdate(lineNumber, event.target.value);
+        if(textArea.current)
+            cursorPositionUpdate(lineNumber, textArea.current.selectionStart)
     }
 
-    function onFocus(): void {
+    function handleKeyDown(event: any): void {
+        let key = event.key
+        switch(key){
+            case "Enter":
+                nextLine();
+                break;
+            case "Backspace":
+                if(content==''){
+                    lineDelete();
+                }
+                break;
+        }
+        if(textArea.current)
+            cursorPositionUpdate(lineNumber, textArea.current.selectionStart)
+    }
+
+    function onClick(): void {
+        console.log(lineNumber)
         setFocus(true);
+        lineFocused(lineNumber)
     }
 
     function onBlur(): void {
         setFocus(false);
     }
 
-    function addSum(): void {
-        setContent(`${content}\\sum_{i=0}^{n} i*i`);
-        textArea.current?.select();
+    function toggleEditor(): void{
+        setEditorEnabled(!editorEnabled)
     }
 
-    function addPlus(): void {
-        setContent(`${content}+`);
-        textArea.current?.select();
-    }
+    useEffect(() => {
+        if(textArea.current && shouldFocus)
+            textArea.current.focus()
+        else
+            onBlur()
+    }, [textArea, shouldFocus])
 
-    function addProduct(): void {
-        setContent(`${content} \\prod_{i=1}^{n} i `);
-        textArea.current?.select();
-    }
+    useEffect(() => {
+        setContent(line.content)
+    }, [line.content])
 
-    function addTimes(): void {
-        setContent(`${content}\\times`);
-        textArea.current?.select();
-    }
-
-    useEffect(()=>{
-        lineUpdate(lineNumber, content);
-    }, [lineNumber, lineUpdate, content]);
+    useEffect(() => {
+        if(textArea.current){
+            textArea.current.selectionStart = cursorPosition
+            textArea.current.selectionEnd = cursorPosition
+        }
+    }, [textArea, cursorPosition])
 
     return (
         <div>
-            <div>
+            <div className="cursor-pointer" onClick={() => toggleEditor()}>
                 <Katex instruction={content}/>
             </div>
+            { (editorEnabled || content.length === 0) &&
             <div className={`line-container ${focus ? 'focused' : ''}`}>
-                <div className="line-actions">
-                    <button className="line-action" onClick={addSum}>Σ</button>
-                    <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
-                    {/* <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
-                    <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button> */}
-
-                </div>
-                <textarea ref={textArea} className="line-area" onChange={handleChange} value={content} onFocus={onFocus} onBlur={onBlur}></textarea>
+                <input 
+                    type="text" 
+                    ref={textArea} 
+                    className="line-area" 
+                    onChange={handleChange} 
+                    onKeyDown={handleKeyDown}
+                    value={content}
+                    onClick={onClick}
+                    onBlur={onBlur}
+                    placeholder="fill me up !"
+                />
             </div>
+            }
         </div>
     )
 }
