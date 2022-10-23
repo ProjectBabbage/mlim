@@ -2,11 +2,7 @@ MAX_STEP = 25
 EPSILON = 0.001
 
 
-def f(x):
-    return (x + 10) ** 2
-
-
-def gradient_descent(
+def perform_gradient_descent(
     fct_to_descent,
     last_position,
     last_position_value,
@@ -30,7 +26,7 @@ def gradient_descent(
             return seen_positions, seen_values
 
     if left_value == right_value:
-        gradient_descent(
+        perform_gradient_descent(
             fct_to_descent,
             last_position,
             last_position_value,
@@ -42,7 +38,7 @@ def gradient_descent(
         seen_values.append(left_value)
         seen_positions.append(left)
 
-        return gradient_descent(
+        return perform_gradient_descent(
             fct_to_descent,
             left,
             left_value,
@@ -56,7 +52,7 @@ def gradient_descent(
         seen_values.append(right_value)
         seen_positions.append(right)
 
-        return gradient_descent(
+        return perform_gradient_descent(
             fct_to_descent,
             right,
             right_value,
@@ -67,4 +63,5 @@ def gradient_descent(
         )
 
 
-print(gradient_descent(f, 0, None, 5, 0, [0], [f(0)]))
+# To call perform_gradient_descent:
+# (Function to descent, Starting Position, None, Step_Size, 0, [0], [Function to descent(0)])
