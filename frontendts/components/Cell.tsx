@@ -113,9 +113,14 @@ export default function CellComponent({cell, deleteCell, callApi}: CellProps) {
             appendAtCursor(` \\prod_{i=1}^{n} i `)
     }
 
-   function addMapsto(): void {
+    function addMapsto(): void {
         if(currentLineIndex !== null)
             appendAtCursor(` \\mapsto `)
+    }
+
+    function addNabla(): void {
+        if(currentLineIndex !== null)
+            appendAtCursor(` \\nabla `)
     }
 
     return (
@@ -130,9 +135,10 @@ export default function CellComponent({cell, deleteCell, callApi}: CellProps) {
                 </div>
             </div>
             <div className="line-actions">
-                <button className="line-action" onClick={addSum}>Σ</button>
-                <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
+                <button className="line-action" onClick={addSum}>∑</button>
+                <button className="line-action font-bold" onClick={addProduct}>∏</button>
                 <button className="line-action font-bold" onClick={addMapsto}>↦</button>
+                <button className="line-action font-bold" onClick={addNabla}>∇</button>
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
             </div>
             <div className="lines-container">
