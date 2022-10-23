@@ -23,6 +23,7 @@ tokens = [
     "SEMICOL",
     "BEGIN",
     "END",
+    "MAPSTO",
 ] + list(reserved.values())
 
 t_LPAREN = r"\("
@@ -38,6 +39,7 @@ t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
 t_SUM = r"\\sum"
 t_PRODUCT = r"\\prod"
+t_MAPSTO = r"\\mapsto"
 
 t_BEGIN = r"\\begin"
 t_END = r"\\end"

@@ -16,6 +16,30 @@ class Prog:
         return self.prog()
 
 
+class Function:
+    def __init__(self, var: str, prog: Prog):
+        self.var = var
+        self.prog = prog
+
+    def __call__(self, value: float):
+        if self.var in State.context:
+            raise EnvironmentError
+        State.context[self.var] = value
+        ret_value = self.prog()
+        del State.context[self.var]
+        return ret_value
+
+
+class Call:
+    def __init__(self, func: str, arg: Prog):
+        self.func = func
+        self.arg = arg
+
+    def __call__(self):
+        f = State.store[self.func]
+        return f(self.arg())
+
+
 class Sum(Prog):
     def __init__(self, var: str, init: Prog, end: Prog, body: Prog):
         self.var = var
