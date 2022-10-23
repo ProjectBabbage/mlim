@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List
 import ourMath
+import gradient_descent
 
 
 class State:
@@ -131,3 +132,11 @@ class BinOp(Prog):
             if type(self.left()) == Matrix and type(self.right()) == float:
                 return ourMath.divMatrixbyScalar(self.left().matrix, self.right())
             return self.left() / self.right()
+
+
+class Nabla(Prog):
+    def __init__(self, var: str):
+        self.var = var
+
+    def __call__(self):
+        gradient_descent.wrapper(State.store[self.var])
