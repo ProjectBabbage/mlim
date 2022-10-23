@@ -20,7 +20,7 @@ tokens = [
     "AMPER",
     "DOUBLEBS",
     "VAR",
-    "LEFTARROW",
+    "SEMICOL",
     "BEGIN",
     "END",
 ] + list(reserved.values())
@@ -30,7 +30,7 @@ t_RPAREN = r"\)"
 t_LBRACK = r"\{"
 t_RBRACK = r"\}"
 
-t_LEFTARROW = r"\\leftarrow"
+t_SEMICOL = r":"
 t_EQUALS = r"="
 t_UNDERS = r"\_"
 t_CARET = r"\^"
