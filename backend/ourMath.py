@@ -60,4 +60,4 @@ def selectCell(A, i, j):
     i = int(i) - 1
     j = int(j) - 1
     if len(A) > i >= 0 and len(A[0]) > j >= 0:
-        return A[i][j]
+        return A[j][i]

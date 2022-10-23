@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ast import Store
 from typing import List
 import ourMath
 
@@ -117,8 +118,7 @@ class Cell(Prog):
         self.j = j
 
     def __call__(self):
-        print(self.var.matrix)
-        return ourMath.selectCell(self.var.matrix, self.i(), self.j())
+        return ourMath.selectCell(self.var.matrix, self.i(), self.j())()
 
 
 class BinOp(Prog):
