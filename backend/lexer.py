@@ -53,7 +53,7 @@ t_ignore = "\t "
 
 
 def t_VAR(t):
-    r"[a-z]+"
+    r"[a-zA-Z]+"
     t.type = reserved.get(t.value, "VAR")
     t.value = str(t.value)
     return t
