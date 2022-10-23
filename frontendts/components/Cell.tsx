@@ -98,23 +98,28 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
 
     function addSum(): void {
         if(currentLineIndex !== null)
-            appendAtCursor(`\\sum_{i=0}^{n} i*i`)
+            appendAtCursor(` \\sum_{i=0}^{n} i*i `)
 
     }
 
     function addPlus(): void {
         if(currentLineIndex !== null)
-            appendAtCursor(`+`)
+            appendAtCursor(` + `)
     }
 
     function addTimes(): void {
         if(currentLineIndex !== null)
-            appendAtCursor(`\\times`)
+            appendAtCursor(` \\times `)
+    }
+
+    function addProduct(): void {
+        if(currentLineIndex !== null)
+            appendAtCursor(` \\prod_{i=1}^{n} i `)
     }
 
     function addArrow(): void {
         if(currentLineIndex !== null)
-            appendAtCursor(`\\leftarrow`)
+            appendAtCursor(` \\leftarrow `)
     }
 
     return (
@@ -131,6 +136,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
             <div className="line-actions">
                 <button className="line-action font-bold" onClick={addArrow}>⟵</button>
                 <button className="line-action" onClick={addSum}>Σ</button>
+                <button className="line-action font-bold" onClick={addProduct}>𝝿</button>
                 <button className="line-action" onClick={addPlus}><FontAwesomeIcon icon={faPlus} /></button>
                 <button className="line-action" onClick={addTimes}><FontAwesomeIcon icon={faTimes} /></button>
                 <div className="flex-grow cursor-pointer" onClick={() => toggleEditor()}></div>
