@@ -70,6 +70,11 @@ def p_literal_paren(p):
     p[0] = p[2]
 
 
+def p_literal_nabla(p):
+    "literal : NABLA VAR"
+    p[0] = model.Nabla(p[2])
+
+
 def p_literal_var(p):
     "literal : VAR"
     p[0] = model.Var(p[1])

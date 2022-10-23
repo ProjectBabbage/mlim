@@ -139,4 +139,4 @@ class Nabla(Prog):
         self.var = var
 
     def __call__(self):
-        gradient_descent.wrapper(State.store[self.var])
+        return gradient_descent.wrapper(State.store[self.var])
