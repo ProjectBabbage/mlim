@@ -10,13 +10,23 @@ precedence = (
 
 
 def p_program_assign(p):
-    "program : VAR SEMICOL prog"
+    "program : VAR SEMICOL func"
     model.State.store[p[1]] = p[3]
     p[0] = p[3]
 
 
 def p_program_prog(p):
-    "program : prog"
+    "program : func"
+    p[0] = p[1]
+
+
+def p_func_function(p):
+    "func : VAR MAPSTO prog"
+    p[0] = model.Function(p[1], p[3])
+
+
+def p_func_prog(p):
+    "func : prog"
     p[0] = p[1]
 
 
@@ -48,6 +58,11 @@ def p_mulprog_mul(p):
 def p_mulprog_lit(p):
     "mulprog : literal"
     p[0] = p[1]
+
+
+def p_literal_call(p):
+    "literal : VAR LPAREN prog RPAREN"
+    p[0] = model.State.Call(p[1], p[3])
 
 
 def p_literal_paren(p):
