@@ -29,15 +29,20 @@ export default function Cells() {
         setCells([...cells, newCell]);
     }
     
-    const deleteCell = (i: number) => {
-        cells.splice(i, 1);
-        setCells([...cells]);
+    const deleteCell = (cellId: number) => {
+        const cellsCopy = [...cells];
+
+        const cellIdx = cellsCopy.findIndex((cell) => cell.id === cellId);
+        if (cellIdx >= 0) {
+            cellsCopy.splice(cellIdx, 1);
+            setCells([...cellsCopy]);
+        }
     }
 
     return (
         <div className="container">
             <h1>MLIM</h1>
-            { cells.map((cell, i) => <div id={`cell${i}`} key={i}><CellComponent cell={cell} deleteCell={deleteCell} callApi={callApi} id={i}></CellComponent></div>) }
+            { cells.map((cell, i) => <div id={`cell${i}`} key={cell.id}><CellComponent cell={cell} deleteCell={deleteCell} callApi={callApi}></CellComponent></div>) }
             <div className="action-container">
                 <div className="flex-grow"></div>
                 <div>

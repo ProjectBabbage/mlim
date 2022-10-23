@@ -6,13 +6,12 @@ import { faPlay, faTrashCan, faPlus, faTimes } from "@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CellProps {
-    id: number;
     cell: Cell;
     deleteCell: Function;
     callApi: (_: string) => Promise<string>;
 }
 
-export default function CellComponent({id, cell, deleteCell, callApi}: CellProps) {
+export default function CellComponent({cell, deleteCell, callApi}: CellProps) {
     const [result, setResult] = useState('');
     const [lines, setLines] = useState(cell.lines);
     const [editorEnabled, setEditorEnabled] = useState(true);
@@ -122,10 +121,10 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
     return (
         <div className="cell-component">
             <div className="cell-header">
-                <div className="text-red-500 cursor-pointer" onClick={() => deleteCell(id)}>
+                <div className="text-red-500 cursor-pointer" onClick={() => deleteCell(cell.id)}>
                     <FontAwesomeIcon icon={faTrashCan} />
                 </div>            
-                <h2>Cell #{id}</h2>
+                <h2>Cell #{cell.id}</h2>
                 <div className="cursor-pointer" onClick={execLines}>
                     <FontAwesomeIcon className="play-icon" icon={faPlay} />
                 </div>
@@ -138,7 +137,7 @@ export default function CellComponent({id, cell, deleteCell, callApi}: CellProps
             </div>
             <div className="lines-container">
                 { editorEnabled && lines.map((line, i) => 
-                    <div className="sick-fade-in" key={`${id}${i}`}>
+                    <div className="sick-fade-in" key={`${cell.id}${i}`}>
                         <Line
                             line={line} 
                             lineNumber={i} 

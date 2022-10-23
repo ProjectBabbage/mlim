@@ -1,4 +1,5 @@
 export interface Cell {
+    id: number;
     lines: Array<AbstractLine>;
 }
 
