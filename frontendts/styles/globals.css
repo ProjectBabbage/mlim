@@ -60,7 +60,7 @@ h2 {
 .action-container {
   display: flex;
   width: 100%;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .flex-grow {
@@ -111,9 +111,6 @@ h2 {
   transition: 25ms;
 }
 
-/* .line-container input:hover{
-  background-color: rgba(255, 255, 0, 0.1);
-} */
 .line-container.focused {
   outline: solid 2px rgba(66, 99, 255, 0.6);
   border-color: transparent;
