@@ -2,9 +2,13 @@ import parser
 from model import State, Value
 
 
-def evaluation(passed_store, file):
+def evaluation(passed_store, input_tex):
     State.store = passed_store
-    ret_value = parser.yacc.parse(file)()
+    prog = parser.yacc.parse(input_tex)
+    try:
+        ret_value = prog()
+    except KeyError:
+        ret_value = prog
     passed_store = State.store
     return ret_value
 
@@ -12,6 +16,6 @@ def evaluation(passed_store, file):
 if __name__ == "__main__":
     import sys
 
-    file = open(sys.argv[1]).read()
+    input_tex = open(sys.argv[1]).read()
     st = {"i": Value(1)}
-    print(evaluation(st, file))
+    print(evaluation(st, input_tex))
