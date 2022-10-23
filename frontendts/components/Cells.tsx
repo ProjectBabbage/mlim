@@ -3,6 +3,7 @@ import {Cell} from "../models/cells";
 import CellComponent from "./Cell";
 import {CellFactory} from "../services/cell-factory";
 import {LineFactory} from "../services/line-factory";
+import Chart from "./Chart";
 
 
 export default function Cells() {
@@ -43,6 +44,8 @@ export default function Cells() {
                     <button type="button" className="add-cell-action" onClick={addCell}>Nouvelle cellule</button>
                 </div>
             </div>
+
+            <Chart />
         </div>
     )
 }
