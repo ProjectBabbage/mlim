@@ -1,5 +1,5 @@
 import parser
-from model import State, Value
+from model import State, Value, Matrix
 
 
 def evaluation(passed_store, input_tex):
@@ -17,5 +17,6 @@ if __name__ == "__main__":
     import sys
 
     input_tex = open(sys.argv[1]).read()
-    st = {"i": Value(1)}
+    st = {"A": Matrix([[5 + 1, 7], [8, 9]])}
+    #    st = {"i": Value(1.0)}
     print(evaluation(st, input_tex))
