@@ -108,6 +108,11 @@ def p_line_list(p):
         p[0] = [p[1]]
 
 
+def p_literal_cell(p):
+    "literal : VAR UNDERS LBRACK prog COMMA prog RBRACK"
+    p[0] = model.Cell(model.State.store[p[1]], p[4], p[6])
+
+
 def p_error(p):
     print("Syntax error in line %d" % p.lineno)
     latex_parser.errok()

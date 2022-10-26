@@ -111,6 +111,16 @@ class Matrix(Prog):
         return str(self.matrix)
 
 
+class Cell(Prog):
+    def __init__(self, var: Matrix, i: Prog, j: Prog):
+        self.var = var
+        self.i = i
+        self.j = j
+
+    def __call__(self):
+        return ourMath.selectCell(self.var.matrix, self.i(), self.j())()
+
+
 class BinOp(Prog):
     def __init__(self, left: Prog, op: str, right: Prog):
         self.left = left

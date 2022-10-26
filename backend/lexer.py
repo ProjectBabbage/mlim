@@ -16,6 +16,7 @@ tokens = [
     "LBRACK",
     "RBRACK",
     "UNDERS",
+    "COMMA",
     "EQUALS",
     "AMPER",
     "DOUBLEBS",
@@ -35,6 +36,7 @@ t_RBRACK = r"\}"
 t_SEMICOL = r":"
 t_EQUALS = r"="
 t_UNDERS = r"\_"
+t_COMMA = r","
 t_CARET = r"\^"
 t_ADDOP = r"\+|-"
 t_MULOP = r"\*|/"
@@ -53,7 +55,7 @@ t_ignore = "\t "
 
 
 def t_VAR(t):
-    r"[a-z]+"
+    r"[a-zA-Z]+"
     t.type = reserved.get(t.value, "VAR")
     t.value = str(t.value)
     return t
