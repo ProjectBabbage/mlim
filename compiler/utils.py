@@ -56,7 +56,7 @@ def addMatrix(A, B):
     return model.Matrix(C)
 
 
-def selectCell(A, i, j):
+def selectElement(A, i, j):
     i = int(i) - 1
     j = int(j) - 1
     return A[i][j]

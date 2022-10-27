@@ -111,14 +111,14 @@ class Matrix(Prog):
         return str(self.matrix)
 
 
-class Cell(Prog):
+class SelectElement(Prog):
     def __init__(self, var: Matrix, i: Prog, j: Prog):
         self.var = var
         self.i = i
         self.j = j
 
     def __call__(self):
-        return utils.selectCell(self.var.matrix, self.i(), self.j())()
+        return utils.selectElement(self.var.matrix, self.i(), self.j())()
 
 
 class BinOp(Prog):
