@@ -144,7 +144,7 @@ class BinOp(Prog):
             return self.left() / self.right()
 
 
-class Nabla(Prog):
+class GradientDescent(Prog):
     def __init__(self, var: str):
         self.var = var
 

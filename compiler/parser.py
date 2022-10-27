@@ -72,7 +72,7 @@ def p_literal_paren(p):
 
 def p_literal_nabla(p):
     "literal : NABLA VAR"
-    p[0] = model.Nabla(p[2])
+    p[0] = model.GradientDescent(p[2])
 
 
 def p_literal_var(p):
