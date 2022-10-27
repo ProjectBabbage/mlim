@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import List
-from compiler import ourMath, gradient_descent
+from compiler import utils, gradient_descent
 
 
 class State:
@@ -102,23 +102,23 @@ class Matrix(Prog):
         return Matrix([[x() for x in line] for line in self.matrix])
 
     def __mul__(self, b):
-        return ourMath.mulMatrix(self.matrix, b.matrix)
+        return utils.mulMatrix(self.matrix, b.matrix)
 
     def __add__(self, b):
-        return ourMath.addMatrix(self.matrix, b.matrix)
+        return utils.addMatrix(self.matrix, b.matrix)
 
     def __repr__(self):
         return str(self.matrix)
 
 
-class Cell(Prog):
+class SelectElement(Prog):
     def __init__(self, var: Matrix, i: Prog, j: Prog):
         self.var = var
         self.i = i
         self.j = j
 
     def __call__(self):
-        return ourMath.selectCell(self.var.matrix, self.i(), self.j())()
+        return utils.selectElement(self.var.matrix, self.i(), self.j())()
 
 
 class BinOp(Prog):
@@ -134,17 +134,17 @@ class BinOp(Prog):
             return self.left() - self.right()
         elif self.op == "*":
             if type(self.right()) == Matrix and type(self.left()) == float:
-                return ourMath.mulMatrixbyScalar(self.right().matrix, self.left())
+                return utils.mulMatrixbyScalar(self.right().matrix, self.left())
             elif type(self.left()) == Matrix and type(self.right()) == float:
-                return ourMath.mulMatrixbyScalar(self.left().matrix, self.right())
+                return utils.mulMatrixbyScalar(self.left().matrix, self.right())
             return self.left() * self.right()
         elif self.op == "/":
             if type(self.left()) == Matrix and type(self.right()) == float:
-                return ourMath.divMatrixbyScalar(self.left().matrix, self.right())
+                return utils.divMatrixbyScalar(self.left().matrix, self.right())
             return self.left() / self.right()
 
 
-class Nabla(Prog):
+class GradientDescent(Prog):
     def __init__(self, var: str):
         self.var = var
 

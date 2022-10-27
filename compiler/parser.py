@@ -72,7 +72,7 @@ def p_literal_paren(p):
 
 def p_literal_nabla(p):
     "literal : NABLA VAR"
-    p[0] = model.Nabla(p[2])
+    p[0] = model.GradientDescent(p[2])
 
 
 def p_literal_var(p):
@@ -110,7 +110,7 @@ def p_line_list(p):
 
 def p_literal_cell(p):
     "literal : VAR UNDERS LBRACK prog COMMA prog RBRACK"
-    p[0] = model.Cell(model.State.store[p[1]], p[4], p[6])
+    p[0] = model.SelectElement(model.State.store[p[1]], p[4], p[6])
 
 
 def p_error(p):
