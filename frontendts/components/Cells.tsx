@@ -5,12 +5,12 @@ import {CellFactory} from "../services/cell-factory";
 import {LineFactory} from "../services/line-factory";
 import Chart from "./Chart";
 
-
 export default function Cells() {
     const [cells, setCells] = useState<Array<Cell>>([])
     
+
     async function callApi(command: string) {
-        let response = await fetch("http://localhost:8080/code/", {
+        let result = await fetch("http://localhost:8080/code/", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -19,8 +19,8 @@ export default function Cells() {
             code: command,
             }),
         });
-        let result = await response.json().then((data) => data.RESULT);
-        return result;
+        const {response, msg} = await result.json().then((data) => data);
+        return {response, msg}
     }
 
     const addCell = () => {
