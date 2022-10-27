@@ -5,10 +5,11 @@ import { LineFactory } from "../services/line-factory";
 import { faPlay, faTrashCan, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
 interface CellProps {
     cell: Cell;
     deleteCell: Function;
-    callApi: (_: string) => Promise<string>;
+    callApi: (_: string) => Promise<{response: string, msg: string}>;
 }
 
 export default function CellComponent({cell, deleteCell, callApi}: CellProps) {
@@ -88,8 +89,8 @@ export default function CellComponent({cell, deleteCell, callApi}: CellProps) {
     const execLines = async () => {
         const results = [];
         for(let i=0; i<lines.length; i++){
-            const r = await callApi(lines[i].content);
-            results.push(r);
+            const {response, msg} = await callApi(lines[i].content);
+            results.push([response, msg].join(" "));
         }
         setResult(results.join('\n')); 
     }
