@@ -64,6 +64,7 @@ def t_VAR(t):
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
+    t.lexer.offset = t.lexpos + len(t.value)
 
 
 def t_NUMBER(t):
@@ -73,11 +74,12 @@ def t_NUMBER(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    column = t.lexpos - t.lexer.offset + 1
+    raise Exception(f"Illegal character '{t.value[0]}' at Ln {t.lineno}, Col {column}")
 
 
-lex.lex()
+lexer = lex.lex()
+lexer.offset = 0
 
 
 if __name__ == "__main__":
