@@ -1,7 +1,7 @@
 import ply.yacc as yacc
-import model
+from compiler import model
 
-from lexer import tokens  # noqa: F401
+from compiler.lexer import tokens  # noqa: F401
 
 precedence = (
     ("left", "ADDOP"),
@@ -118,4 +118,4 @@ def p_error(p):
     latex_parser.errok()
 
 
-latex_parser = yacc.yacc(outputdir="parser_generated")
+latex_parser = yacc.yacc(outputdir="compiler/parser_generated")

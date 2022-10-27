@@ -1,11 +1,11 @@
 from __future__ import annotations
 from typing import List
-import ourMath
-import gradient_descent
+from compiler import ourMath, gradient_descent
 
 
 class State:
     store = {}
+    cells = []
     context = {}
 
 

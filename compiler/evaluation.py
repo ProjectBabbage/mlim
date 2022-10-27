@@ -1,15 +1,13 @@
-import parser
-from model import State, Value, Matrix
+from compiler import parser
+from compiler.model import Value, Matrix
 
 
-def evaluation(passed_store, input_tex):
-    State.store = passed_store
+def evaluation(input_tex):
     prog = parser.yacc.parse(input_tex)
     try:
         ret_value = prog()
     except:  # noqa : E712
         ret_value = prog
-    passed_store = State.store
     return ret_value
 
 

@@ -1,7 +1,7 @@
 import traceback
-from evaluation import evaluation
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from compiler.evaluation import evaluation
 
 app = FastAPI()
 
@@ -12,9 +12,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-STATE = {}  # state of the python kernel
-CELLS = []  # latex code of each cells
 
 
 @app.get("/")
@@ -27,10 +24,12 @@ async def code(json: dict):
     response = ""
     try:
         command = json["code"]
-        response = evaluation(STATE, command)
+        response = evaluation(command)
         print(f"Result of command {command}: {response}")
     except Exception:
         traceback.print_exc()
         response = "That didn't mean anything to me"
     finally:
-        return {"STATE": STATE, "CELLS": CELLS, "RESULT": response}
+        return {
+            "RESULT": response,
+        }

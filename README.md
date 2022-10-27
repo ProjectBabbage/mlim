@@ -7,7 +7,7 @@ Similar to a Jupyter notebook, share both the theory and code, without uncouplin
 
 # Installation
 
-You need to install python3.8+ and node 16+. Then, wether you are using poetry or not, `make install` to install backend and frontend dependencies.
+You need to install python3.8+ and node 16+. Then, wether you are using poetry or not, `make install` to install compiler and frontend dependencies.
 
 # Run
 
