@@ -1,4 +1,4 @@
-import model
+from compiler import model
 
 
 def transpose(A):
