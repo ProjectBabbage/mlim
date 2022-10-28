@@ -14,6 +14,5 @@ back:
 front:
 	cd frontendts/ && npm run dev
 
-
 tests:
 	python -m unittest discover

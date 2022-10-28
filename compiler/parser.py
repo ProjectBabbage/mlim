@@ -59,7 +59,7 @@ def p_literal(p):
     | LPAREN prog RPAREN
     | NABLA VAR
     | VAR
-    | NUMBER"""
+    | number"""
     if len(p) == 10:
         p[0] = model.Matrix(p[5])
     elif len(p) == 7:
@@ -70,10 +70,22 @@ def p_literal(p):
         p[0] = p[2]
     elif len(p) == 3:
         p[0] = model.GradientDescent(p[2])
-    elif len(p) == 2 and isinstance(p[1], float):
-        p[0] = model.Value(p[1])
     elif len(p) == 2 and isinstance(p[1], str):
         p[0] = model.Var(p[1])
+    elif len(p) == 2:
+        p[0] = model.Value(p[1])
+
+
+def p_number(p):
+    """number : ADDOP number
+    | NUMBER"""
+    if len(p) == 3:
+        if p[1] == "-":
+            p[0] = -p[2]
+        else:
+            p[0] = p[2]
+    else:
+        p[0] = p[1]
 
 
 def p_multiline(p):
