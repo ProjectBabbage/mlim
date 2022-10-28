@@ -10,9 +10,10 @@ const textareaStyle = {
 interface CellContentProp {
     content: string;
     setContent: Function;
+    executeAction: Function;
 }
 
-const CellContent = ({content, setContent}: CellContentProp) => {
+const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
     const [editorEnabled, setEditorEnabled] = useState(true);
     const textareaRef = React.createRef<HTMLTextAreaElement>();
     const toggleEditor = () => {
@@ -34,6 +35,12 @@ const CellContent = ({content, setContent}: CellContentProp) => {
                     ref={textareaRef}
                     value={content} 
                     style={textareaStyle}
+                    onKeyDown={(e) => {
+                        if(e.code == "Enter" && e.shiftKey){
+                            executeAction();
+                            e.preventDefault()
+                        }
+                    }}
                     onInput={(e) => {
                         // black magic to make the textarea automatically resize on user input
                         const el = e.currentTarget;
