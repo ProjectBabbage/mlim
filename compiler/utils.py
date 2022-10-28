@@ -17,22 +17,22 @@ def mulMatrix(A, B):
         for j in range(len(B[0])):
             s = 0
             for k in range(len(A[0])):
-                s += A[i][k] * B[k][j]
-            C[i][j] = s
+                s += A[i][k]() * B[k][j]()
+            C[i][j] = model.Value(s)
     return model.Matrix(C)
 
 
 def mulMatrixbyScalar(A, b):
     for i in range(len(A)):
         for j in range(len(A[0])):
-            A[i][j] = b * A[i][j]
+            A[i][j] = model.Value(b * A[i][j]())
     return model.Matrix(A)
 
 
 def divMatrixbyScalar(A, b):
     for i in range(len(A)):
         for j in range(len(A[0])):
-            A[i][j] = A[i][j] / b
+            A[i][j] = model.Value(A[i][j]() / b)
     return model.Matrix(A)
 
 

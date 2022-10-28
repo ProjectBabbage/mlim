@@ -82,6 +82,25 @@ class Value(Prog):
     def __call__(self):
         return self.value
 
+    def __add__(self, b):
+        return Value(self.value + b.value)
+
+    def __sub__(self, b):
+        self.value -= b.value
+        return self
+
+    def __mul__(self, b):
+        print(self.value, " : ", b.value)
+        self.value = self.value * b.value
+        return self
+
+    def __truediv__(self, b):
+        self.value /= b.value
+        return self
+
+    def __repr__(self):
+        return "Value: " + str(self.value)
+
 
 class Var(Prog):
     def __init__(self, var: str):
@@ -99,7 +118,7 @@ class Matrix(Prog):
         self.matrix = matrix
 
     def __call__(self):
-        return Matrix([[x() for x in line] for line in self.matrix])
+        return Matrix([[Value(x()) for x in line] for line in self.matrix])
 
     def __mul__(self, b):
         return utils.mulMatrix(self.matrix, b.matrix)
@@ -108,7 +127,7 @@ class Matrix(Prog):
         return utils.addMatrix(self.matrix, b.matrix)
 
     def __repr__(self):
-        return str(self.matrix)
+        return "Matrix: " + str(self.matrix)
 
 
 class SelectElement(Prog):
@@ -128,20 +147,39 @@ class BinOp(Prog):
         self.right = right
 
     def __call__(self):
+        # we try to calculate first the subprograms, avoids useless calculation later
+        left = self.left()
+        right = self.right()
+        print(left, right)
         if self.op == "+":
-            return self.left() + self.right()
+            return left + right
         elif self.op == "-":
-            return self.left() - self.right()
+            return left - right
         elif self.op == "*":
-            if type(self.right()) == Matrix and type(self.left()) == float:
-                return utils.mulMatrixbyScalar(self.right().matrix, self.left())
-            elif type(self.left()) == Matrix and type(self.right()) == float:
-                return utils.mulMatrixbyScalar(self.left().matrix, self.right())
-            return self.left() * self.right()
+            if type(right) == Matrix and type(left) == float:
+                return utils.mulMatrixbyScalar(right.matrix, left)
+            elif type(left) == Matrix and type(right) == float:
+                return utils.mulMatrixbyScalar(left.matrix, right)
+            return left * right
         elif self.op == "/":
-            if type(self.left()) == Matrix and type(self.right()) == float:
-                return utils.divMatrixbyScalar(self.left().matrix, self.right())
-            return self.left() / self.right()
+            if type(left) == Matrix and type(right) == float:
+                return utils.divMatrixbyScalar(left.matrix, right)
+            return left / right
+
+
+class SingleOp(Prog):
+    def __init__(self, op: str, right: Prog):
+        self.op = op
+        self.right = right
+
+    def __call__(self):
+        right = self.right()
+        if self.op == "+":
+            return right
+        elif self.op == "-":
+            if type(right) == Matrix:
+                return utils.mulMatrixbyScalar(right.matrix, -1)
+            return -1 * right
 
 
 class GradientDescent(Prog):
