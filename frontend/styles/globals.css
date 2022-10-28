@@ -64,14 +64,14 @@ h2 {
 }
 
 .add-cell-action {
+  margin-top: 10px;
   border-radius: 3px;
-  border: solid 1px #d2d1d1;
-  background: #f1f1f1;
+  border: solid 1px;
   padding: 4px;
 }
 
 .add-cell-action:hover {
-  border: solid 1px #9c9c9c;
+  border: solid 1px;
   background: #c6c6c6;
   transition: border 0.3s, background 0.3s;
 }
