@@ -116,9 +116,7 @@ interface KatexProps {
 export default function Katex(props: KatexProps) {
   return (
     <div>
-      sldkqlksd
-      qslmdkmq
-    <InlineMath math = { props.instruction } />
+      <BlockMath math = { props.instruction } />
     </div>
   )
 }

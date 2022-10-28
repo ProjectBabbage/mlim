@@ -16,8 +16,6 @@ const CellComponent = ({cell, deleteCell}: CellProps) => {
 
     const executeCell = async () => {
         const {response, msg} = await callApi(content);
-        console.log(content);
-        console.log(response, msg)
         setResult([response, msg].join(' ')); 
     }
 
@@ -28,7 +26,7 @@ const CellComponent = ({cell, deleteCell}: CellProps) => {
     return (
         <div className="cell-component">
             <CellHeader cellId={cell.id} deleteAction={deleteCell} executeAction={executeCell} addOperator={addOperator}/>
-            <CellContent content={content} setContent={setContent}/>
+            <CellContent content={content} setContent={setContent} executeAction={executeCell} />
             <div className="cell-result">
                 <pre>{result}</pre>
             </div>
