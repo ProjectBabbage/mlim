@@ -31,15 +31,11 @@ def p_func(p):
 def p_prog(p):
     """prog : SUM UNDERS LBRACK VAR EQUALS prog RBRACK CARET LBRACK prog RBRACK mulprog
     | prog ADDOP prog
-    | ADDOP prog
     | mulprog"""
     if len(p) == 13:
         p[0] = model.Sum(p[4], p[6], p[10], p[12])
     elif len(p) == 4:
         p[0] = model.BinOp(p[1], p[2], p[3])
-    elif len(p) == 3:
-        p[0] = model.SingleOp(p[1], p[2])
-        print(p[1], p[2])
     else:
         p[0] = p[1]
 
@@ -73,12 +69,10 @@ def p_literal(p):
     elif len(p) == 4:
         p[0] = p[2]
     elif len(p) == 3:
-        print(p[3])
         p[0] = model.GradientDescent(p[2])
     elif len(p) == 2 and isinstance(p[1], float):
         p[0] = model.Value(p[1])
     elif len(p) == 2 and isinstance(p[1], str):
-        print(p[1])
         p[0] = model.Var(p[1])
 
 
