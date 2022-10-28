@@ -83,7 +83,7 @@ const InternalPathComponentPropTypes = {
 
 const InternalBlockMath = ({ html }) => {
   return (
-    <div data-testid= "react-katex" dangerouslySetInnerHTML = {{ __html: html }
+    <div data-testid="react-katex" dangerouslySetInnerHTML = {{ __html: html }
 } />
   );
 };
@@ -116,7 +116,9 @@ interface KatexProps {
 export default function Katex(props: KatexProps) {
   return (
     <div>
-    <BlockMath math= { props.instruction } />
+      sldkqlksd
+      qslmdkmq
+    <InlineMath math = { props.instruction } />
     </div>
   )
 }
