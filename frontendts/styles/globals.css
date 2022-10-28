@@ -53,10 +53,6 @@ h2 {
   font-weight: 600;
 }
 
-.container {
-  width: 800px;
-}
-
 .action-container {
   display: flex;
   width: 100%;
@@ -117,17 +113,17 @@ h2 {
   transition: outline 0.1s;
 }
 
-.line-actions {
+.operator-actions {
   display: flex;
   border-bottom: 1px solid rgba(79, 79, 79, 0.6);
 }
 
-.line-action {
+.operator-action {
   font-weight: 800;
   padding: 4px 16px;
 }
 
-.line-action:hover {
+.operator-action:hover {
   color: blue;
   background-color: #eaeaea;
   transition: color 0.5s, background-color 0.5s;
@@ -139,7 +135,7 @@ h2 {
   font-weight: 800;
 }
 
-.cell-header {
+.cell-actions {
   display: flex;
   justify-content: space-between;
 }
