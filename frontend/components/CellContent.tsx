@@ -14,8 +14,8 @@ interface CellContentProp {
 }
 
 const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
-    const [editorEnabled, setEditorEnabled] = useState(true);
-    const textareaRef = React.createRef<HTMLTextAreaElement>();
+    const [editorEnabled, setEditorEnabled] = useState(true)
+    const textareaRef = React.createRef<HTMLTextAreaElement>()
     const toggleEditor = () => {
         setEditorEnabled(!editorEnabled)
     }
@@ -28,7 +28,6 @@ const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
         <div>
             <div className="cursor-pointer" onClick={() => toggleEditor()}>
                 { <Katex instruction={content} /> }
-                {/* { content.split('\n').map((line, i) => <Katex key={i} instruction={line} /> )} */}
             </div>
             { (editorEnabled) &&
                 <textarea
@@ -43,10 +42,11 @@ const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
                     }}
                     onInput={(e) => {
                         // black magic to make the textarea automatically resize on user input
-                        const el = e.currentTarget;
-                        el.style.height = 'auto';
-                        el.style.height = `${el.scrollHeight}px`;
-                        setContent(e.currentTarget.value);
+                        const el = e.currentTarget
+                        el.style.height = 'auto'
+                        el.style.height = `${el.scrollHeight}px`
+                        setContent(e.currentTarget.value)
+                        console.log(content)
                     }} 
                 />
             }
