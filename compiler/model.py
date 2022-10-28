@@ -167,21 +167,6 @@ class BinOp(Prog):
             return left / right
 
 
-class SingleOp(Prog):
-    def __init__(self, op: str, right: Prog):
-        self.op = op
-        self.right = right
-
-    def __call__(self):
-        right = self.right()
-        if self.op == "+":
-            return right
-        elif self.op == "-":
-            if type(right) == Matrix:
-                return utils.mulMatrixbyScalar(right.matrix, -1)
-            return -1 * right
-
-
 class GradientDescent(Prog):
     def __init__(self, var: str):
         self.var = var
