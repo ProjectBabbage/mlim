@@ -101,9 +101,6 @@ class Operand(Prog):
     def __call__(self):
         return self
 
-    def __repr__(self):
-        return str(self.operand)
-
 
 class Value(Operand):
     def __init__(self, operand: float):
