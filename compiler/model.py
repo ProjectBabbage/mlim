@@ -75,33 +75,6 @@ class Product(Prog):
         return s
 
 
-class Value(Prog):
-    def __init__(self, value):
-        self.value = value
-
-    def __call__(self):
-        return self.value
-
-    def __add__(self, b):
-        return Value(self.value + b.value)
-
-    def __sub__(self, b):
-        self.value -= b.value
-        return self
-
-    def __mul__(self, b):
-        print(self.value, " : ", b.value)
-        self.value = self.value * b.value
-        return self
-
-    def __truediv__(self, b):
-        self.value /= b.value
-        return self
-
-    def __repr__(self):
-        return "Value: " + str(self.value)
-
-
 class Var(Prog):
     def __init__(self, var: str):
         self.var = var
@@ -113,31 +86,65 @@ class Var(Prog):
             return State.store[self.var]()
 
 
-class Matrix(Prog):
-    def __init__(self, matrix: List[List[Prog]]):
-        self.matrix = matrix
+class Operand(Prog):
+    def __init__(self, operand):
+        self.operand = operand
 
     def __call__(self):
-        return Matrix([[Value(x()) for x in line] for line in self.matrix])
-
-    def __mul__(self, b):
-        return utils.mulMatrix(self.matrix, b.matrix)
-
-    def __add__(self, b):
-        return utils.addMatrix(self.matrix, b.matrix)
+        return self
 
     def __repr__(self):
-        return "Matrix: " + str(self.matrix)
+        return str(self.operand)
+
+
+class Value(Operand):
+    def __init__(self, operand: float):
+        super().__init__(operand)
+
+    def __add__(self, b):
+        return Value(self.operand + b.operand)
+
+    def __sub__(self, b):
+        return Value(self.operand - b.operand)
+
+    def __mul__(self, b):
+        return Value(self.operand * b.operand)
+
+    def __truediv__(self, b):
+        return Value(self.operand / b.operand)
+
+
+class Matrix(Operand):
+    def __init__(self, operand: List[List[Prog]]):
+        super().__init__(operand)
+
+    def __call__(self):
+        return Matrix([[x() for x in line] for line in self.operand])
+
+    def __mul__(self, b):
+        return utils.mulMatrix(self.operand, b.operand)
+
+    def __add__(self, b):
+        return utils.addMatrix(self.operand, b.operand)
 
 
 class SelectElement(Prog):
-    def __init__(self, var: Matrix, i: Prog, j: Prog):
+    def __init__(self, var: Prog, i: Prog, j: Prog):
         self.var = var
         self.i = i
         self.j = j
 
     def __call__(self):
-        return utils.selectElement(self.var.matrix, self.i(), self.j())()
+        print(
+            "type : ",
+            type(self.var().operand[0][0].operand),
+        )
+        return utils.selectElement(
+            self.var().operand, self.i().operand, self.j().operand
+        )
+
+    def __repr__(self) -> str:
+        return str(self.var)
 
 
 class BinOp(Prog):
@@ -150,20 +157,19 @@ class BinOp(Prog):
         # we try to calculate first the subprograms, avoids useless calculation later
         left = self.left()
         right = self.right()
-        print(left, right)
         if self.op == "+":
             return left + right
         elif self.op == "-":
             return left - right
         elif self.op == "*":
-            if type(right) == Matrix and type(left) == float:
-                return utils.mulMatrixbyScalar(right.matrix, left)
-            elif type(left) == Matrix and type(right) == float:
-                return utils.mulMatrixbyScalar(left.matrix, right)
+            if type(right) == Matrix and type(left) == Value:
+                return utils.mulMatrixbyScalar(right.operand, left)
+            elif type(left) == Matrix and type(right) == Value:
+                return utils.mulMatrixbyScalar(left.operand, right)
             return left * right
         elif self.op == "/":
-            if type(left) == Matrix and type(right) == float:
-                return utils.divMatrixbyScalar(left.matrix, right)
+            if type(left) == Matrix and type(right) == Value:
+                return utils.divMatrixbyScalar(left.operand, right)
             return left / right
 
 
