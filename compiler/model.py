@@ -54,7 +54,11 @@ class Sum(Prog):
         s = 0
         for k in range(v_init, v_end + 1):
             State.context[self.var] = k
-            s += self.body()
+            # Because types are either value or matrix, s cannot be set prior
+            if k == v_init:
+                s = self.body()
+            else:
+                s += self.body()
         return s
 
 
@@ -70,8 +74,12 @@ class Product(Prog):
         v_end = int(self.end())
         s = 1
         for k in range(v_init, v_end + 1):
+            # Because types are either value or matrix, s cannot be set prior
             State.context[self.var] = k
-            s *= self.body()
+            if k == v_init:
+                s = self.body()
+            else:
+                s *= self.body()
         return s
 
 
@@ -135,10 +143,6 @@ class SelectElement(Prog):
         self.j = j
 
     def __call__(self):
-        print(
-            "type : ",
-            type(self.var().operand[0][0].operand),
-        )
         return utils.selectElement(
             self.var().operand, self.i().operand, self.j().operand
         )
