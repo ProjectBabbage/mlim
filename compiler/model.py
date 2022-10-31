@@ -144,9 +144,6 @@ class SelectElement(Prog):
             self.var().operand, self.i().operand, self.j().operand
         )
 
-    def __repr__(self) -> str:
-        return str(self.var)
-
 
 class BinOp(Prog):
     def __init__(self, left: Prog, op: str, right: Prog):
