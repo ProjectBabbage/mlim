@@ -127,10 +127,16 @@ class Matrix(Operand):
         return Matrix([[x() for x in line] for line in self.operand])
 
     def __mul__(self, b):
-        return utils.mulMatrix(self.operand, b.operand)
+        return utils.mulMatrix(self, b)
 
     def __add__(self, b):
-        return utils.addMatrix(self.operand, b.operand)
+        return utils.addMatrix(self, b)
+
+    def __sub__(self, b):
+        return utils.subMatrix(self, b)
+
+    def getSize(self):
+        return [len(self.operand), len(self.operand[0])]
 
 
 class SelectElement(Prog):
@@ -140,9 +146,7 @@ class SelectElement(Prog):
         self.j = j
 
     def __call__(self):
-        return utils.selectElement(
-            self.var().operand, self.i().operand, self.j().operand
-        )
+        return utils.selectElement(self.var(), self.i(), self.j())
 
 
 class BinOp(Prog):
@@ -161,13 +165,13 @@ class BinOp(Prog):
             return left - right
         elif self.op == "*":
             if type(right) == Matrix and type(left) == Value:
-                return utils.mulMatrixbyScalar(right.operand, left)
+                return utils.mulMatrixbyScalar(right, left)
             elif type(left) == Matrix and type(right) == Value:
-                return utils.mulMatrixbyScalar(left.operand, right)
+                return utils.mulMatrixbyScalar(left, right)
             return left * right
         elif self.op == "/":
             if type(left) == Matrix and type(right) == Value:
-                return utils.divMatrixbyScalar(left.operand, right)
+                return utils.divMatrixbyScalar(left, right)
             return left / right
 
 
