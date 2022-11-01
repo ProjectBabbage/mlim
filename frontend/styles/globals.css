@@ -53,10 +53,6 @@ h2 {
   font-weight: 600;
 }
 
-.container {
-  width: 800px;
-}
-
 .action-container {
   display: flex;
   width: 100%;
@@ -68,14 +64,14 @@ h2 {
 }
 
 .add-cell-action {
+  margin-top: 10px;
   border-radius: 3px;
-  border: solid 1px #d2d1d1;
-  background: #f1f1f1;
+  border: solid 1px;
   padding: 4px;
 }
 
 .add-cell-action:hover {
-  border: solid 1px #9c9c9c;
+  border: solid 1px;
   background: #c6c6c6;
   transition: border 0.3s, background 0.3s;
 }
@@ -117,17 +113,17 @@ h2 {
   transition: outline 0.1s;
 }
 
-.line-actions {
+.operator-actions {
   display: flex;
   border-bottom: 1px solid rgba(79, 79, 79, 0.6);
 }
 
-.line-action {
+.operator-action {
   font-weight: 800;
   padding: 4px 16px;
 }
 
-.line-action:hover {
+.operator-action:hover {
   color: blue;
   background-color: #eaeaea;
   transition: color 0.5s, background-color 0.5s;
@@ -139,7 +135,7 @@ h2 {
   font-weight: 800;
 }
 
-.cell-header {
+.cell-actions {
   display: flex;
   justify-content: space-between;
 }

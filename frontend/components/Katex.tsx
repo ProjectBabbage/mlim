@@ -64,17 +64,17 @@ const createMathComponent = (Component, { displayMode }) => {
       );
     }
 
-return <Component html={ html } />;
+  return <Component html={ html } />;
   };
 
-MathComponent.propTypes = {
-  children: PropTypes.string,
-  errorColor: PropTypes.string,
-  math: PropTypes.string,
-  renderError: PropTypes.func,
-};
+  MathComponent.propTypes = {
+    children: PropTypes.string,
+    errorColor: PropTypes.string,
+    math: PropTypes.string,
+    renderError: PropTypes.func,
+  };
 
-return MathComponent;
+  return MathComponent;
 };
 
 const InternalPathComponentPropTypes = {
@@ -83,8 +83,7 @@ const InternalPathComponentPropTypes = {
 
 const InternalBlockMath = ({ html }) => {
   return (
-    <div data-testid= "react-katex" dangerouslySetInnerHTML = {{ __html: html }
-} />
+    <div data-testid="react-katex" dangerouslySetInnerHTML = {{ __html: html }}/>
   );
 };
 
@@ -92,11 +91,7 @@ InternalBlockMath.propTypes = InternalPathComponentPropTypes;
 
 const InternalInlineMath = ({ html }) => {
   return (
-    <span
-      data-testid= "react-katex"
-  dangerouslySetInnerHTML = {{ __html: html }
-}
-/>
+    <span data-testid="react-katex"dangerouslySetInnerHTML={{ __html: html }}/>
   );
 };
 
@@ -113,10 +108,10 @@ interface KatexProps {
   instruction: string
 }
 
-export default function Katex(props: KatexProps) {
+export default function Katex({instruction}: KatexProps) {
   return (
     <div>
-    <BlockMath math= { props.instruction } />
+      <BlockMath math={ instruction } />
     </div>
   )
 }
