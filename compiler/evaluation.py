@@ -11,6 +11,7 @@ def evaluation(input_tex):
     except TypeError as te:
         print("TypeError", te)
     except KeyError as ke:
+        ret_value = str(prog)
         print("KeyError", ke)
     except Exception as e:
         message = str(e)

@@ -63,7 +63,7 @@ def p_literal(p):
     if len(p) == 10:
         p[0] = model.Matrix(p[5])
     elif len(p) == 8:
-        p[0] = model.SelectElement(model.State.store[p[1]], p[4], p[6])
+        p[0] = model.SelectElement(p[1], p[4], p[6])
     elif len(p) == 5:
         p[0] = model.Call(p[1], p[3])
     elif len(p) == 4:
