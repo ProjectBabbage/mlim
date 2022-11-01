@@ -14,5 +14,8 @@ back:
 front:
 	cd frontend/ && npm run dev
 
+lint:
+	flake8
+
 tests:
-	python -m unittest discover
+	PYTHONPATH=. python -m unittest discover -v
