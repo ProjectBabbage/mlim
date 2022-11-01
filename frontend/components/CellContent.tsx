@@ -10,15 +10,13 @@ const textareaStyle = {
 interface CellContentProp {
     content: string;
     setContent: Function;
+    editorEnabled: boolean;
+    setEditorEnabled: Function;
     executeAction: Function;
 }
 
-const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
-    const [editorEnabled, setEditorEnabled] = useState(true)
+const CellContent = ({content, setContent, editorEnabled, setEditorEnabled, executeAction}: CellContentProp) => {
     const textareaRef = React.createRef<HTMLTextAreaElement>()
-    const toggleEditor = () => {
-        setEditorEnabled(!editorEnabled)
-    }
 
     useEffect(()=>{
         if(textareaRef?.current) textareaRef.current.focus()
@@ -26,7 +24,7 @@ const CellContent = ({content, setContent, executeAction}: CellContentProp) => {
 
     return (
         <div>
-            <div className="cursor-pointer" onClick={() => toggleEditor()}>
+            <div className="cursor-pointer" onClick={() => setEditorEnabled(!editorEnabled)}>
                 { <Katex instruction={content} /> }
             </div>
             { (editorEnabled) &&
