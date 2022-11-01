@@ -32,13 +32,13 @@ const CellHeader = ({cellId, deleteAction, executeAction, addOperator, setEditor
 
     return (
         <div className="cell-header">
-            <div className="cell-actions">
+            <div className="flex justify-between items-center">
                 <div className="text-red-500 cursor-pointer" onClick={() => deleteAction(cellId)}>
-                    <FontAwesomeIcon icon={faTrashCan} />
+                    <FontAwesomeIcon icon={faTrashCan} width={15} />
                 </div>            
                 <h2>Cell #{cellId}</h2>
-                <div className="cursor-pointer" onClick={() => executeAction()}>
-                    <FontAwesomeIcon className="play-icon" icon={faPlay} />
+                <div className="cursor-pointer text-green-400" onClick={() => executeAction()}>
+                    <FontAwesomeIcon icon={faPlay} width={15} />
                 </div>
             </div>
             <div className="operator-actions" onClick={() => setEditorEnabled(true)}>
