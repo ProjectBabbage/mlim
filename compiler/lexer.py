@@ -82,7 +82,7 @@ lexer = lex.lex()
 
 
 def reset():
-    lexer.lexpo = 0
+    lexer.lexpos = 0
     lexer.offset = 0
     lexer.lineno = 1
 
