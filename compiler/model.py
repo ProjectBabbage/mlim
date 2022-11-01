@@ -210,7 +210,7 @@ class SelectElement(Prog):
     def __call__(self):
 
         return utils.selectElement(
-            State.store[self.var](), self.i().operand, self.j().operand
+            State.store[self.var]().operand, self.i().operand, self.j().operand
         )
 
     def __str__(self) -> str:
