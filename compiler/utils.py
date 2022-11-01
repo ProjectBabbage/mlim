@@ -1,65 +1,57 @@
-from compiler import model
+def transpose(A):
+    B = [[0 for a in range(len(A))] for a in range(len(A[0]))]
+    for i in range(len(A)):
+        for j in range(len(A[0])):
+            B[j][i] = A[i][j]
+    return B
 
 
-def transpose(A: model.Matrix):
-    size = A.getSize()
-    B = [[0 for a in range(size[0])] for a in range(size[1])]
-    for i in range(size[0]):
-        for j in range(size[1]):
-            B[j][i] = A.operand[i][j]
-    return model.Matrix(B)
-
-
-def mulMatrix(A: model.Matrix, B: model.Matrix):
-    sizeA = A.getSize()
-    sizeB = B.getSize()
-    if sizeA[1] != sizeB[0]:
+def mulMatrix(A, B):
+    if len(A[0]) != len(B):
         return []
-    C = [[0 for a in range(sizeA[0])] for a in range(sizeB[1])]
-    for i in range(sizeA[0]):
-        for j in range(sizeB[1]):
-            s = model.Value(0)
-            for k in range(sizeA[1]):
-                s += A.operand[i][k] * B.operand[k][j]
+    C = [[0 for a in range(len(A))] for a in range(len(B[0]))]
+    for i in range(len(A)):
+        for j in range(len(B[0])):
+            s = 0
+            for k in range(len(A[0])):
+                s += A[i][k] * B[k][j]
             C[i][j] = s
-    return model.Matrix(C)
+    return C
 
 
-def mulMatrixbyScalar(A: model.Matrix, b: model.Value):
-    for i in range(A.getSize()[0]):
-        for j in range(A.getSize()[1]):
-            A.operand[i][j] = b * A.operand[i][j]
-    return model.Matrix(A)
-
-
-def divMatrixbyScalar(A: model.Matrix, b: model.Value):
-    for i in range(A.getSize()[0]):
-        for j in range(A.getSize()[1]):
-            A.operand[i][j] = A.operand[i][j] / b
+def mulMatrixbyScalar(A, b):
+    for i in range(len[A]):
+        for j in range(len(A[0])):
+            A[i][j] = b * A[i][j]
     return A
 
 
-def subMatrix(A: model.Matrix, B: model.Matrix):
-    size = A.getSize()
-    if size[1] != B.getSize[1] or size[0] != B.getSize[0]:
+def divMatrixbyScalar(A, b):
+    for i in range(len(A)):
+        for j in range(len(A[0])):
+            A[i][j] = A[i][j] / b
+    return A
+
+
+def subMatrix(A, B):
+    if len(A[0]) != len(B[0]) or len(A) != len(B):
         return []
-    for i in range(size[0]):
-        for j in range(size[1]):
-            A.operand[i][j] -= B.operand[i][j]
+    for i in range(len(A)):
+        for j in range(len(A[0])):
+            A[i][j] -= B[i][j]
     return A
 
 
-def addMatrix(A: model.Matrix, B: model.Matrix):
-    size = A.getSize()
-    if len(size[1]) != len(B.getSize()[1]) or len(size[0]) != len(B.getSize()[0]):
+def addMatrix(A, B):
+    if len(A[0]) != len(B[0]) or len(A) != len(B):
         return []
-    for i in range(size[0]):
-        for j in range(size[1]):
-            A.operand[i][j] += B.operand[i][j]
+    for i in range(len(A)):
+        for j in range(len(A[0])):
+            A[i][j] += B[i][j]
     return A
 
 
-def selectElement(A: model.Matrix, i: model.Value, j: model.Value):
-    i = int(i.operand) - 1
-    j = int(j.operand) - 1
-    return A.operand[i][j]
+def selectElement(A, i, j):
+    i = int(i) - 1
+    j = int(j) - 1
+    return A[i][j]
