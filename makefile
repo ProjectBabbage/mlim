@@ -4,6 +4,3 @@ install:
 # js deps
 	cd frontend && npm i
 	chmod +x mlim.sh
-
-lint:
-	flake8
