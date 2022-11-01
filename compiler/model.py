@@ -25,7 +25,7 @@ class Function:
     def __call__(self, value: float):
         if self.var in State.context:
             raise EnvironmentError
-        State.context[self.var] = value
+        State.context[self.var] = Value(value)
         ret_value = self.prog()
         del State.context[self.var]
         return ret_value
@@ -53,7 +53,7 @@ class Sum(Prog):
         v_end = int(self.end())
         s = 0
         for k in range(v_init, v_end + 1):
-            State.context[self.var] = k
+            State.context[self.var] = Value(k)
             # Because types are either value or matrix, s cannot be set prior
             if k == v_init:
                 s = self.body()
@@ -70,12 +70,12 @@ class Product(Prog):
         self.body = body
 
     def __call__(self):
-        v_init = int(self.init())
-        v_end = int(self.end())
+        v_init = int(self.init().operand)
+        v_end = int(self.end().operand)
         s = 1
         for k in range(v_init, v_end + 1):
             # Because types are either value or matrix, s cannot be set prior
-            State.context[self.var] = k
+            State.context[self.var] = Value(k)
             if k == v_init:
                 s = self.body()
             else:
@@ -91,6 +91,7 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
+            print(State.store[self.var])
             return State.store[self.var]()
 
 
