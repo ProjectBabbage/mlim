@@ -25,7 +25,7 @@ class Function:
     def __call__(self, value: float):
         if self.var in State.context:
             raise EnvironmentError
-        State.context[self.var] = value
+        State.context[self.var] = Value(value)
         ret_value = self.prog()
         del State.context[self.var]
         return ret_value
@@ -49,12 +49,16 @@ class Sum(Prog):
         self.body = body
 
     def __call__(self):
-        v_init = int(self.init())
-        v_end = int(self.end())
+        v_init = int(self.init().operand)
+        v_end = int(self.end().operand)
         s = 0
         for k in range(v_init, v_end + 1):
-            State.context[self.var] = k
-            s += self.body()
+            State.context[self.var] = Value(k)
+            # Because types are either value or matrix, s cannot be set prior
+            if k == v_init:
+                s = self.body()
+            else:
+                s += self.body()
         return s
 
 
@@ -66,21 +70,17 @@ class Product(Prog):
         self.body = body
 
     def __call__(self):
-        v_init = int(self.init())
-        v_end = int(self.end())
+        v_init = int(self.init().operand)
+        v_end = int(self.end().operand)
         s = 1
         for k in range(v_init, v_end + 1):
-            State.context[self.var] = k
-            s *= self.body()
+            # Because types are either value or matrix, s cannot be set prior
+            State.context[self.var] = Value(k)
+            if k == v_init:
+                s = self.body()
+            else:
+                s *= self.body()
         return s
-
-
-class Value(Prog):
-    def __init__(self, value):
-        self.value = value
-
-    def __call__(self):
-        return self.value
 
 
 class Var(Prog):
@@ -91,34 +91,62 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
+            print(State.store[self.var])
             return State.store[self.var]()
 
 
-class Matrix(Prog):
-    def __init__(self, matrix: List[List[Prog]]):
-        self.matrix = matrix
+class Operand(Prog):
+    def __init__(self, operand):
+        self.operand = operand
 
     def __call__(self):
-        return Matrix([[x() for x in line] for line in self.matrix])
+        return self
 
-    def __mul__(self, b):
-        return utils.mulMatrix(self.matrix, b.matrix)
+
+class Value(Operand):
+    def __init__(self, operand: float):
+        super().__init__(operand)
 
     def __add__(self, b):
-        return utils.addMatrix(self.matrix, b.matrix)
+        return Value(self.operand + b.operand)
 
-    def __repr__(self):
-        return str(self.matrix)
+    def __sub__(self, b):
+        return Value(self.operand - b.operand)
+
+    def __mul__(self, b):
+        return Value(self.operand * b.operand)
+
+    def __truediv__(self, b):
+        return Value(self.operand / b.operand)
+
+
+class Matrix(Operand):
+    def __init__(self, operand: List[List[Prog]]):
+        super().__init__(operand)
+
+    def __call__(self):
+        return Matrix([[x() for x in line] for line in self.operand])
+
+    def __mul__(self, b):
+        return Matrix(utils.mulMatrix(self.operand, b.operand))
+
+    def __add__(self, b):
+        return Matrix(utils.addMatrix(self.operand, b.operand))
+
+    def __sub__(self, b):
+        return Matrix(utils.subMatrix(self.operand, b.operand))
 
 
 class SelectElement(Prog):
-    def __init__(self, var: Matrix, i: Prog, j: Prog):
+    def __init__(self, var: Prog, i: Prog, j: Prog):
         self.var = var
         self.i = i
         self.j = j
 
     def __call__(self):
-        return utils.selectElement(self.var.matrix, self.i(), self.j())()
+        return utils.selectElement(
+            self.var().operand, self.i().operand, self.j().operand
+        )
 
 
 class BinOp(Prog):
@@ -128,20 +156,23 @@ class BinOp(Prog):
         self.right = right
 
     def __call__(self):
+        # we try to calculate first the subprograms, avoids useless calculation later
+        left = self.left()
+        right = self.right()
         if self.op == "+":
-            return self.left() + self.right()
+            return left + right
         elif self.op == "-":
-            return self.left() - self.right()
+            return left - right
         elif self.op == "*":
-            if type(self.right()) == Matrix and type(self.left()) == float:
-                return utils.mulMatrixbyScalar(self.right().matrix, self.left())
-            elif type(self.left()) == Matrix and type(self.right()) == float:
-                return utils.mulMatrixbyScalar(self.left().matrix, self.right())
-            return self.left() * self.right()
+            if type(right) == Matrix and type(left) == Value:
+                return utils.mulMatrixbyScalar(right.operand, left.operand)
+            elif type(left) == Matrix and type(right) == Value:
+                return utils.mulMatrixbyScalar(left.operand, right.operand)
+            return left * right
         elif self.op == "/":
-            if type(self.left()) == Matrix and type(self.right()) == float:
-                return utils.divMatrixbyScalar(self.left().matrix, self.right())
-            return self.left() / self.right()
+            if type(left) == Matrix and type(right) == Value:
+                return utils.divMatrixbyScalar(left.operand, right.operand)
+            return left / right
 
 
 class GradientDescent(Prog):
