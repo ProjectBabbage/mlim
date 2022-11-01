@@ -49,8 +49,8 @@ class Sum(Prog):
         self.body = body
 
     def __call__(self):
-        v_init = int(self.init())
-        v_end = int(self.end())
+        v_init = int(self.init().operand)
+        v_end = int(self.end().operand)
         s = 0
         for k in range(v_init, v_end + 1):
             State.context[self.var] = Value(k)
