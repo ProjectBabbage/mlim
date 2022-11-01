@@ -3,14 +3,6 @@ from unittest import TestCase
 from compiler import parser, model
 
 
-model.State.store = {
-    "A": model.Matrix(
-        [[model.Value(6.0), model.Value(7.0)], [model.Value(8.0), model.Value(9.0)]]
-    ),
-    "i": model.Value(1.0),
-}
-
-
 class TestBinOps(TestCase):
     def test_addition(self):
         addition_tex = Path("fixtures/addition.tex").read_text()
@@ -34,16 +26,22 @@ class TestBinOps(TestCase):
         prog = parser.yacc.parse(paren_formula_tex)
         self.assertEqual(prog().operand, 17)
 
+
+class TestProduct(TestCase):
     def test_simple_product(self):
         simple_product_tex = Path("fixtures/simple_product.tex").read_text()
         prog = parser.yacc.parse(simple_product_tex)
         self.assertEqual(prog().operand, 120)
 
+
+class TestSum(TestCase):
     def test_simple_sum(self):
         simple_sum_tex = Path("fixtures/simple_sum.tex").read_text()
         prog = parser.yacc.parse(simple_sum_tex)
         self.assertEqual(prog().operand, 55)
 
+
+class TestMatrix(TestCase):
     def test_bmatrix_1d(self):
         bmatrix_1d_tex = Path("fixtures/bmatrix_1d.tex").read_text()
         prog = parser.yacc.parse(bmatrix_1d_tex)
@@ -99,6 +97,11 @@ class TestBinOps(TestCase):
             str(prog()), "\\begin{bmatrix}135.8&37.8\\\\71.4&49.0\\end{bmatrix}"
         )
 
+
+class TestAssignement(TestCase):
+    def setUp(self) -> None:
+        model.State.store = {}
+
     def test_assign_value(self):
         assign_value_tex = Path("fixtures/assign_value.tex").read_text()
         prog = parser.yacc.parse(assign_value_tex)
@@ -127,6 +130,42 @@ class TestBinOps(TestCase):
         prog = parser.yacc.parse(assign_var_tex)
         self.assertEqual(str(prog), "(x+2.0)")
         self.assertEqual(str(model.State.store["a"]), "(x+2.0)")
+
+
+class TestEvaluation(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        model.State.store = {
+            "i": model.Value(1.0),
+            "A": model.Matrix(
+                [
+                    [model.Value(6.0), model.Value(7.0)],
+                    [model.Value(8.0), model.Value(9.0)],
+                ]
+            ),
+            "f": model.Function("x", model.BinOp(model.Var("x"), "+", model.Var("x"))),
+        }
+
+    def test_evaluation_test(self):
+        evaluation_test_tex = Path("fixtures/evaluation_test.tex").read_text()
+        prog = parser.yacc.parse(evaluation_test_tex)
+        self.assertEqual(prog().operand, 8.0)
+
+    def test_evaluation_matrix_cell(self):
+        evaluation_matrix_cell_tex = Path(
+            "fixtures/evaluation_matrix_cell.tex"
+        ).read_text()
+        prog = parser.yacc.parse(evaluation_matrix_cell_tex)
+        self.assertEqual(prog().operand, 8.0)
+
+    def test_evaluation_function(self):
+        evaluation_function_tex = Path("fixtures/evaluation_function.tex").read_text()
+        prog = parser.yacc.parse(evaluation_function_tex)
+        self.assertEqual(prog().operand, 8.0)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        model.State.store = {}
 
     # def test_TEMPLATE(self):
     #     TEMPLATE_tex = Path("fixtures/TEMPLATE.tex").read_text()

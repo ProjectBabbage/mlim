@@ -22,10 +22,10 @@ class Function:
         self.var = var
         self.prog = prog
 
-    def __call__(self, value: float):
+    def __call__(self, value: Value):
         if self.var in State.context:
             raise EnvironmentError
-        State.context[self.var] = Value(value)
+        State.context[self.var] = value
         ret_value = self.prog()
         del State.context[self.var]
         return ret_value
@@ -133,7 +133,6 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
-            print(State.store[self.var])
             return State.store[self.var]()
 
     def __str__(self) -> str:
