@@ -6,9 +6,10 @@ interface CellHeaderProps {
     deleteAction: Function;
     executeAction: Function;
     addOperator: Function;
+    setEditorEnabled: Function;
 }
 
-const CellHeader = ({cellId, deleteAction, executeAction, addOperator}: CellHeaderProps) => {
+const CellHeader = ({cellId, deleteAction, executeAction, addOperator, setEditorEnabled}: CellHeaderProps) => {
     const addSum = () =>{
         addOperator(` \\sum_{i=0}^{n} i*i `)
     }
@@ -25,6 +26,10 @@ const CellHeader = ({cellId, deleteAction, executeAction, addOperator}: CellHead
         addOperator(` \\nabla `)
     }
 
+    const addMatrix = () => {
+        addOperator(`\\begin{bmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{bmatrix}`)
+    }
+
     return (
         <div className="cell-header">
             <div className="cell-actions">
@@ -36,7 +41,8 @@ const CellHeader = ({cellId, deleteAction, executeAction, addOperator}: CellHead
                     <FontAwesomeIcon className="play-icon" icon={faPlay} />
                 </div>
             </div>
-            <div className="operator-actions">
+            <div className="operator-actions" onClick={() => setEditorEnabled(true)}>
+                <button className="operator-action font-bold" onClick={addMatrix}>[]</button>
                 <button className="operator-action" onClick={addSum}>∑</button>
                 <button className="operator-action font-bold" onClick={addProduct}>∏</button>
                 <button className="operator-action font-bold" onClick={addMapsto}>↦</button>

@@ -3,6 +3,7 @@ import { Cell } from "../models/cells";
 import CellContent from "./CellContent";
 import CellHeader from "./CellHeader";
 import { callApi } from "../utils/requests"
+import Katex from "./Katex";
 
 
 interface CellProps {
@@ -11,6 +12,7 @@ interface CellProps {
 }
 
 const CellComponent = ({cell, deleteCell}: CellProps) => {
+    const [editorEnabled, setEditorEnabled] = useState(true)
     const [content, setContent] = useState('');
     const [result, setResult] = useState('');
 
@@ -25,11 +27,16 @@ const CellComponent = ({cell, deleteCell}: CellProps) => {
 
     return (
         <div className="cell-component">
-            <CellHeader cellId={cell.id} deleteAction={deleteCell} executeAction={executeCell} addOperator={addOperator}/>
-            <CellContent content={content} setContent={setContent} executeAction={executeCell} />
+            <CellHeader cellId={cell.id} deleteAction={deleteCell} executeAction={executeCell} addOperator={addOperator} setEditorEnabled={setEditorEnabled} />
+            <CellContent content={content} setContent={setContent} executeAction={executeCell} editorEnabled={editorEnabled} setEditorEnabled={setEditorEnabled} />
+
+            {/* Result */}
+            { result.trim() && 
             <div className="cell-result">
-                <pre>{result}</pre>
+                <hr />
+                <Katex instruction={result}></Katex>
             </div>
+            }
         </div>
     )
 }
