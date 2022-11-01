@@ -174,7 +174,7 @@ class BinOp(Prog):
             return left / right
 
 
-class SingleOp(Prog):
+class UnOp(Prog):
     def __init__(self, op: str, right: Prog):
         self.op = op
         self.right = right

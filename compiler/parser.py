@@ -50,7 +50,7 @@ def p_mulprog(p):
     elif len(p) == 4:
         p[0] = model.BinOp(p[1], p[2], p[3])
     elif len(p) == 3:
-        p[0] = model.SingleOp(p[1], p[2])
+        p[0] = model.UnOp(p[1], p[2])
     else:
         p[0] = p[1]
 
