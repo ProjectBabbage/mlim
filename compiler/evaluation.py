@@ -7,10 +7,11 @@ def evaluation(input_tex):
     ret_value = ""
     try:
         prog = parser.yacc.parse(input_tex)
-        ret_value = prog()
+        ret_value = str(prog())
     except TypeError as te:
         print("TypeError", te)
     except KeyError as ke:
+        ret_value = str(prog)
         print("KeyError", ke)
     except Exception as e:
         message = str(e)

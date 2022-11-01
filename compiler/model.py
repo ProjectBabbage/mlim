@@ -30,6 +30,12 @@ class Function:
         del State.context[self.var]
         return ret_value
 
+    def __str__(self) -> str:
+        return self.var + " \mapsto " + str(self.prog)
+
+    def __repr__(self) -> str:
+        return "Function: " + self.var
+
 
 class Call:
     def __init__(self, func: str, arg: Prog):
@@ -39,6 +45,12 @@ class Call:
     def __call__(self):
         f = State.store[self.func]
         return f(self.arg())
+
+    def __str__(self) -> str:
+        return self.func + "(" + str(self.arg) + ")"
+
+    def __repr__(self) -> str:
+        return "Call: " + self.func + "(x)"
 
 
 class Sum(Prog):
@@ -61,6 +73,21 @@ class Sum(Prog):
                 s += self.body()
         return s
 
+    def __str__(self) -> str:
+        return (
+            "\\sum_{"
+            + self.var
+            + "="
+            + str(self.init)
+            + "}^{"
+            + str(self.end)
+            + "} "
+            + str(self.body)
+        )
+
+    def __repr__(self) -> str:
+        return "Sum: " + self.var
+
 
 class Product(Prog):
     def __init__(self, var: str, init: Prog, end: Prog, body: Prog):
@@ -82,6 +109,21 @@ class Product(Prog):
                 s *= self.body()
         return s
 
+    def __str__(self) -> str:
+        return (
+            "\\prod_{"
+            + self.var
+            + "="
+            + str(self.init)
+            + "}^{"
+            + str(self.end)
+            + "} "
+            + str(self.body)
+        )
+
+    def __repr__(self) -> str:
+        return "Product: " + self.var
+
 
 class Var(Prog):
     def __init__(self, var: str):
@@ -94,6 +136,12 @@ class Var(Prog):
             print(State.store[self.var])
             return State.store[self.var]()
 
+    def __str__(self) -> str:
+        return self.var
+
+    def __repr__(self) -> str:
+        return "Var: " + self.var
+
 
 class Operand(Prog):
     def __init__(self, operand):
@@ -101,6 +149,9 @@ class Operand(Prog):
 
     def __call__(self):
         return self
+
+    def __repr__(self) -> str:
+        return "Operand:" + str(self.operand)
 
 
 class Value(Operand):
@@ -119,6 +170,12 @@ class Value(Operand):
     def __truediv__(self, b):
         return Value(self.operand / b.operand)
 
+    def __str__(self) -> str:
+        return str(self.operand)
+
+    def __repr__(self) -> str:
+        return "Value: " + str(self)
+
 
 class Matrix(Operand):
     def __init__(self, operand: List[List[Prog]]):
@@ -136,17 +193,31 @@ class Matrix(Operand):
     def __sub__(self, b):
         return Matrix(utils.subMatrix(self.operand, b.operand))
 
+    def __str__(self) -> str:
+        matrix = "\\\\".join("&".join(str(e) for e in line) for line in self.operand)
+        return "\\begin{bmatrix}" + matrix + "\\end{bmatrix}"
+
+    def __repr__(self) -> str:
+        return "Matrix: " + str(self.operand)
+
 
 class SelectElement(Prog):
-    def __init__(self, var: Prog, i: Prog, j: Prog):
+    def __init__(self, var: str, i: Prog, j: Prog):
         self.var = var
         self.i = i
         self.j = j
 
     def __call__(self):
+
         return utils.selectElement(
-            self.var().operand, self.i().operand, self.j().operand
+            State.store[self.var]().operand, self.i().operand, self.j().operand
         )
+
+    def __str__(self) -> str:
+        return str(self.var) + "_{" + str(self.i) + "," + str(self.j) + "}"
+
+    def __repr__(self) -> str:
+        return "Element: " + str(self.var)
 
 
 class BinOp(Prog):
@@ -174,6 +245,12 @@ class BinOp(Prog):
                 return utils.divMatrixbyScalar(left.operand, right.operand)
             return left / right
 
+    def __str__(self) -> str:
+        return "(" + str(self.left) + self.op + str(self.right) + ")"
+
+    def __repr__(self) -> str:
+        return "Binop: " + str(self.left) + self.op + str(self.right)
+
 
 class GradientDescent(Prog):
     def __init__(self, var: str):
@@ -181,3 +258,9 @@ class GradientDescent(Prog):
 
     def __call__(self):
         return gradient_descent.wrapper(State.store[self.var])
+
+    def __str__(self) -> str:
+        return "\\nabla " + self.var
+
+    def __repr__(self) -> str:
+        return "Grad Desc: " + self.var
