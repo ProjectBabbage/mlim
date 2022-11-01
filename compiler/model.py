@@ -119,6 +119,9 @@ class Value(Operand):
     def __truediv__(self, b):
         return Value(self.operand / b.operand)
 
+    def __repr__(self) -> str:
+        return str(self.operand)
+
 
 class Matrix(Operand):
     def __init__(self, operand: List[List[Prog]]):
@@ -135,6 +138,13 @@ class Matrix(Operand):
 
     def __sub__(self, b):
         return Matrix(utils.subMatrix(self.operand, b.operand))
+
+    def __str__(self) -> str:
+        matrix = "\\\\".join("&".join(str(e) for e in line) for line in self.operand)
+        return "\\begin{bmatrix}" + matrix + "\\end{bmatrix}"
+
+    def __repr__(self) -> str:
+        return "Matrix: " + str(self.operand)
 
 
 class SelectElement(Prog):
