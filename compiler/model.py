@@ -235,13 +235,13 @@ class BinOp(Prog):
             return left - right
         elif self.op == "*":
             if type(right) == Matrix and type(left) == Value:
-                return utils.mulMatrixbyScalar(right.operand, left.operand)
+                return Matrix(utils.mulMatrixbyScalar(right.operand, left.operand))
             elif type(left) == Matrix and type(right) == Value:
-                return utils.mulMatrixbyScalar(left.operand, right.operand)
+                return Matrix(utils.mulMatrixbyScalar(left.operand, right.operand))
             return left * right
         elif self.op == "/":
             if type(left) == Matrix and type(right) == Value:
-                return utils.divMatrixbyScalar(left.operand, right.operand)
+                return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
             return left / right
 
     def __str__(self) -> str:
@@ -262,7 +262,7 @@ class UnOp(Prog):
             return right
         elif self.op == "-":
             if type(right) == Matrix:
-                return utils.mulMatrixbyScalar(right.operand, -1)
+                return Matrix(utils.mulMatrixbyScalar(right.operand, -1))
             return Value(-1) * right
 
 

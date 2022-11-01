@@ -1,3 +1,6 @@
+from compiler import model
+
+
 def transpose(A):
     B = [[0 for a in range(len(A))] for a in range(len(A[0]))]
     for i in range(len(A)):
@@ -12,7 +15,7 @@ def mulMatrix(A, B):
     C = [[0 for a in range(len(A))] for a in range(len(B[0]))]
     for i in range(len(A)):
         for j in range(len(B[0])):
-            s = 0
+            s = model.Value(0)
             for k in range(len(A[0])):
                 s += A[i][k] * B[k][j]
             C[i][j] = s
@@ -20,16 +23,16 @@ def mulMatrix(A, B):
 
 
 def mulMatrixbyScalar(A, b):
-    for i in range(len[A]):
+    for i in range(len(A)):
         for j in range(len(A[0])):
-            A[i][j] = b * A[i][j]
+            A[i][j] = model.Value(b) * A[i][j]
     return A
 
 
 def divMatrixbyScalar(A, b):
     for i in range(len(A)):
         for j in range(len(A[0])):
-            A[i][j] = A[i][j] / b
+            A[i][j] = A[i][j] / model.Value(b)
     return A
 
 
