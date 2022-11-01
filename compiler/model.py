@@ -9,6 +9,10 @@ class State:
     context = {}
 
     @staticmethod
+    def reset_context():
+        State.context = {}
+
+    @staticmethod
     def restart():
         State.store = {}
 

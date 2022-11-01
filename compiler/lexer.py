@@ -79,8 +79,15 @@ def t_error(t):
 
 
 lexer = lex.lex()
-lexer.offset = 0
 
+
+def reset():
+    lexer.lexpo = 0
+    lexer.offset = 0
+    lexer.lineno = 1
+
+
+reset()
 
 if __name__ == "__main__":
     import sys
