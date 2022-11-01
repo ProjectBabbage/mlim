@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Cell } from "../models/cells";
 import CellContent from "./CellContent";
 import CellHeader from "./CellHeader";
-import { callApi } from "../utils/requests"
+import { postApi } from "../utils/requests"
 import Katex from "./Katex";
 
 
@@ -17,7 +17,7 @@ const CellComponent = ({cell, deleteCell}: CellProps) => {
     const [result, setResult] = useState('');
 
     const executeCell = async () => {
-        const {response, msg} = await callApi(content);
+        const {response, msg} = await postApi('/code/', content);
         setResult([response, msg].join(' ')); 
     }
 
