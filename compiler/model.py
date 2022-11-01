@@ -227,7 +227,6 @@ class BinOp(Prog):
         self.right = right
 
     def __call__(self):
-        # we try to calculate first the subprograms, avoids useless calculation later
         left = self.left()
         right = self.right()
         if self.op == "+":
@@ -250,6 +249,21 @@ class BinOp(Prog):
 
     def __repr__(self) -> str:
         return "Binop: " + str(self.left) + self.op + str(self.right)
+
+
+class UnOp(Prog):
+    def __init__(self, op: str, right: Prog):
+        self.op = op
+        self.right = right
+
+    def __call__(self):
+        right = self.right()
+        if self.op == "+":
+            return right
+        elif self.op == "-":
+            if type(right) == Matrix:
+                return utils.mulMatrixbyScalar(right.operand, -1)
+            return Value(-1) * right
 
 
 class GradientDescent(Prog):
