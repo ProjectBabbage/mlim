@@ -37,7 +37,7 @@ const Cells = () => {
     return (
         <div style={cellsContainerStyle}>
             <h1>MLIM</h1>
-            <div className="flex justify-end">
+            <div className="flex justify-end cursor-pointer">
                 <FontAwesomeIcon icon={faPowerOff} height={20} onClick={restartKernel} />
             </div>
             <div>
