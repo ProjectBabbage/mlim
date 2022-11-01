@@ -19,8 +19,8 @@ tests() {
 }
 
 usage() {
-    echo "Usage: ./mlim.sh [ -h | --help ] [ -b | --back ] [ -f | --front ]
-                 [ -r | --run ] [ -t | --tests ]
+    echo "Usage: ./mlim.sh [ -h | --help ] [ -t | --tests ] [ -i | --lint ]
+                 [ -b | --back ] [ -f | --front ] [ -r | --run ]
                  [ (-l | --lexer) TEST_FILE ] 
                  [ (-p | --parser) TEST_FILE ]"
 }
@@ -30,17 +30,19 @@ for arg; do
     case "${arg}" in
         --help)
             args+=( -h );;
+        --tests) 
+            args+=( -t );;
+        --lint)
+            args+=( -i );;
         --back) 
             args+=( -b );;
         --front)
             args+=( -f );;
         --run)
             args+=( -r );;
-        --tests) 
-            args+=( -t );;
-        --test-lexer) 
+        --lexer) 
             args+=( -l );;
-        --test-parser) 
+        --parser) 
             args+=( -p );;
         *) 
             args+=( "$arg" );;
@@ -49,10 +51,14 @@ done
 
 eval set -- "${args[@]}"
 
-while getopts hbfrtl:p: OPT; do
+while getopts htibfrl:p: OPT; do
     case "${OPT}" in
         h)
             usage;;
+        t) 
+            tests;;
+        i)
+            flake8;;
         b) 
             back;;
         f) 
@@ -60,14 +66,12 @@ while getopts hbfrtl:p: OPT; do
         r)
             front &
             back;;
-        t) 
-            tests;;
         l) 
             python compiler/lexer.py ${OPTARG};;
         p) 
             python compiler/evaluation.py ${OPTARG};;
         *)
-            echo "unrecognized option: ${OPT}"
+            echo "Unrecognized option \"$1\""
             usage
             exit 2;;
     esac
