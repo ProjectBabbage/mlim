@@ -1,7 +1,9 @@
-from compiler import parser
+from compiler import parser, lexer
 
 
 def evaluation(input_tex):
+    lexer.reset()
+    State.reset_context()
     message = ""
     ret_value = ""
     try:

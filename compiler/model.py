@@ -8,6 +8,14 @@ class State:
     cells = []
     context = {}
 
+    @staticmethod
+    def reset_context():
+        State.context = {}
+
+    @staticmethod
+    def restart():
+        State.store = {}
+
 
 class Prog:
     def __init__(self, prog: Prog):

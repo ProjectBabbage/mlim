@@ -1,7 +1,10 @@
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 import {Cell} from "../models/cells";
 import {CellFactory} from "../services/cell-factory";
 import CellComponent from "./Cell";
+import { getApi } from "../utils/requests"
 
 const cellsContainerStyle = {
     border: "1px",
@@ -27,10 +30,16 @@ const Cells = () => {
         }
     }
 
+    const restartKernel = () => {
+        getApi('/restart')
+    }
+
     return (
         <div style={cellsContainerStyle}>
             <h1>MLIM</h1>
-
+            <div className="flex justify-end cursor-pointer">
+                <FontAwesomeIcon icon={faPowerOff} height={20} onClick={restartKernel} />
+            </div>
             <div>
             { cells.map((cell, i) => <CellComponent key={i}  cell={cell} deleteCell={deleteCell}/> ) }
             </div>

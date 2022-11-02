@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from compiler.evaluation import evaluation
+from compiler.model import State
 
 app = FastAPI()
 
@@ -24,3 +25,9 @@ async def code(json: dict):
     response, message = evaluation(command)
     print(f"Result of command {command}: {response}")
     return {"response": response, "msg": message}
+
+
+@app.get("/restart")
+async def restart():
+    State.restart()
+    return {"response": {}, "msg": "ok"}
