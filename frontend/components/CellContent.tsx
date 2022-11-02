@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import Katex from "./Katex";
+
 
 const textareaStyle = {
     width: '100%',
@@ -9,14 +10,15 @@ const textareaStyle = {
 
 interface CellContentProp {
     content: string;
-    setContent: Function;
     editorEnabled: boolean;
+    updateContent: Function;
     setEditorEnabled: Function;
     executeAction: Function;
 }
 
-const CellContent = ({content, setContent, editorEnabled, setEditorEnabled, executeAction}: CellContentProp) => {
-    const textareaRef = React.createRef<HTMLTextAreaElement>()
+const CellContent = ({content, updateContent, editorEnabled, setEditorEnabled, executeAction}: CellContentProp) => {
+    const textareaRef = useRef<HTMLTextAreaElement>()
+    // const textareaRef = React.createRef<HTMLTextAreaElement>()
 
     useEffect(()=>{
         if(textareaRef?.current) textareaRef.current.focus()
@@ -43,8 +45,7 @@ const CellContent = ({content, setContent, editorEnabled, setEditorEnabled, exec
                         const el = e.currentTarget
                         el.style.height = 'auto'
                         el.style.height = `${el.scrollHeight}px`
-                        setContent(e.currentTarget.value)
-                        console.log(content)
+                        updateContent(e.currentTarget.value)
                     }} 
                 />
             }

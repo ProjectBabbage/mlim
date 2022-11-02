@@ -1,15 +1,17 @@
 import { faPlay, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react"
+import { CellsContext, ICellsContext } from "./Cells"
 
 interface CellHeaderProps {
     cellId: number;
-    deleteAction: Function;
     executeAction: Function;
     addOperator: Function;
     setEditorEnabled: Function;
 }
 
-const CellHeader = ({cellId, deleteAction, executeAction, addOperator, setEditorEnabled}: CellHeaderProps) => {
+const CellHeader = ({cellId, executeAction, addOperator, setEditorEnabled}: CellHeaderProps) => {
+    const { deleteCell } = useContext(CellsContext) as ICellsContext;
     const addSum = () =>{
         addOperator(` \\sum_{i=0}^{n} i*i `)
     }
@@ -33,7 +35,7 @@ const CellHeader = ({cellId, deleteAction, executeAction, addOperator, setEditor
     return (
         <div className="cell-header">
             <div className="flex justify-between items-center">
-                <div className="text-red-500 cursor-pointer" onClick={() => deleteAction(cellId)}>
+                <div className="text-red-500 cursor-pointer" onClick={() => deleteCell(cellId)}>
                     <FontAwesomeIcon icon={faTrashCan} width={15} />
                 </div>            
                 <h2>Cell #{cellId}</h2>
