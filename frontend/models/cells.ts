@@ -1,4 +1,4 @@
 export interface Cell {
     id: number;
-    content: String;
+    content: string;
 }
