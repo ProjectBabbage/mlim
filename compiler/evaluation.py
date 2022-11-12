@@ -1,5 +1,5 @@
 from compiler import parser, lexer
-from compiler.parser import State
+from compiler.model import State
 
 
 def evaluation(input_tex):
