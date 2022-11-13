@@ -198,6 +198,9 @@ class Matrix(Operand):
     def __call__(self):
         return Matrix([[x() for x in line] for line in self.operand])
 
+    def rewrite(self):
+        return Matrix([[x.rewrite() for x in line] for line in self.operand])
+
     def __mul__(self, b):
         return Matrix(utils.mulMatrix(self.operand, b.operand))
 
@@ -301,6 +304,15 @@ class UnOp(Prog):
             if type(right) == Matrix:
                 return Matrix(utils.mulMatrixbyScalar(right.operand, -1))
             return Value(-1) * right
+
+    def rewrite(self):
+        self.right = self.right.rewrite()
+        if type(self.right) == Value:
+            if self.op == "+":
+                return self.right
+            elif self.op == "-":
+                return Value(-1) * self.right
+        return self
 
 
 class GradientDescent(Prog):
