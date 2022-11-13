@@ -24,6 +24,11 @@ class Prog:
     def __call__(self):
         return self.prog()
 
+    def rewrite(self):
+        if hasattr(self, "prog"):
+            return self.prog.rewrite()
+        return self
+
 
 class Function:
     def __init__(self, var: str, prog: Prog):
@@ -141,7 +146,9 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
-            return State.store[self.var]()
+            if self.var in State.store:
+                return State.store[self.var]()
+            return self
 
     def __str__(self) -> str:
         return self.var
@@ -236,20 +243,43 @@ class BinOp(Prog):
     def __call__(self):
         left = self.left()
         right = self.right()
-        if self.op == "+":
-            return left + right
-        elif self.op == "-":
-            return left - right
-        elif self.op == "*":
-            if type(right) == Matrix and type(left) == Value:
-                return Matrix(utils.mulMatrixbyScalar(right.operand, left.operand))
-            elif type(left) == Matrix and type(right) == Value:
-                return Matrix(utils.mulMatrixbyScalar(left.operand, right.operand))
-            return left * right
-        elif self.op == "/":
-            if type(left) == Matrix and type(right) == Value:
-                return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
-            return left / right
+        if isinstance(right, Operand) and isinstance(left, Operand):
+            if self.op == "+":
+                return left + right
+            elif self.op == "-":
+                return left - right
+            elif self.op == "*":
+                if type(right) == Matrix and type(left) == Value:
+                    return Matrix(utils.mulMatrixbyScalar(right.operand, left.operand))
+                elif type(left) == Matrix and type(right) == Value:
+                    return Matrix(utils.mulMatrixbyScalar(left.operand, right.operand))
+                return left * right
+            elif self.op == "/":
+                if type(left) == Matrix and type(right) == Value:
+                    return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
+                return left / right
+
+        return BinOp(left, self.op, right)
+
+    def rewrite(self):
+        self.left = self.left.rewrite()
+        self.right = self.right.rewrite()
+        if type(self.left) == Value:
+            if type(self.right) == Value:
+                return self()
+            elif self.left.operand == 0 and self.op == "*":
+                return self.left
+            elif (self.left.operand == 1 and self.op == "*") or (
+                self.left.operand == 0 and self.op in ["+", "-"]
+            ):
+                return self.right
+        elif type(self.right) == Value:
+            if self.right.operand == 0 and self.op == "*":
+                return self.right
+            elif (self.right.operand == 1 and self.op == "*") or (
+                self.right.operand == 0 and self.op in ["+", "-"]
+            ):
+                return self.left
 
     def __str__(self) -> str:
         return "(" + str(self.left) + self.op + str(self.right) + ")"
