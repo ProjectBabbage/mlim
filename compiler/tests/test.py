@@ -167,6 +167,14 @@ class TestEvaluation(TestCase):
     def tearDownClass(cls) -> None:
         model.State.store = {}
 
+
+class TestSimplify(TestCase):
+    def test_evaluation_simplify(self):
+        evaluation_simplify_tex = Path("fixtures/evaluation_simplify.tex").read_text()
+        prog = parser.yacc.parse(evaluation_simplify_tex)
+        prog = prog.rewrite()
+        self.assertEqual(str(prog()), "y")
+
     # def test_TEMPLATE(self):
     #     TEMPLATE_tex = Path("fixtures/TEMPLATE.tex").read_text()
     #     prog = parser.yacc.parse(TEMPLATE_tex)
