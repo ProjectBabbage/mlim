@@ -9,7 +9,7 @@ def evaluation(input_tex):
     ret_value = ""
     try:
         prog = parser.yacc.parse(input_tex)
-        prog.rewrite()
+        prog = prog.rewrite()
         ret_value = str(prog())
     except TypeError as te:
         print("TypeError", te)

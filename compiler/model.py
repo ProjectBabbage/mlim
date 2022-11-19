@@ -283,6 +283,7 @@ class BinOp(Prog):
                 self.right.operand == 0 and self.op in ["+", "-"]
             ):
                 return self.left
+        return self
 
     def __str__(self) -> str:
         return "(" + str(self.left) + self.op + str(self.right) + ")"
