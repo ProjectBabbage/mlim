@@ -248,7 +248,7 @@ class BinOp(Prog):
     def __repr__(self) -> str:
         left = repr(self.left)
         right = repr(self.right)
-        return f"Binop({self.op}, {left}, {right})"
+        return f"Binop({left}, {self.op}, {right})"
 
 
 class UnOp(Prog):
