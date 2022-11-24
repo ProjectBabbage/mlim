@@ -103,3 +103,11 @@ def p_error(p):
 
 
 latex_parser = yacc.yacc(outputdir="compiler/parser_generated")
+
+
+if __name__ == "__main__":
+    import sys
+
+    input_tex = open(sys.argv[1]).read()
+
+    print(repr(yacc.parse(input_tex)))

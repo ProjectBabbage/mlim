@@ -22,7 +22,8 @@ usage() {
     echo "Usage: ./mlim.sh [ -h | --help ] [ -t | --tests ] [ -i | --lint ]
                  [ -b | --back ] [ -f | --front ] [ -r | --run ]
                  [ (-l | --lexer) TEST_FILE ] 
-                 [ (-p | --parser) TEST_FILE ]"
+                 [ (-p | --parser) TEST_FILE ]
+                 [ (-e | --evaluation) TEST_FILE ]"
 }
 
 args=( )
@@ -44,6 +45,8 @@ for arg; do
             args+=( -l );;
         --parser) 
             args+=( -p );;
+        --evaluation) 
+            args+=( -e );;
         *) 
             args+=( "$arg" );;
     esac
@@ -51,7 +54,7 @@ done
 
 eval set -- "${args[@]}"
 
-while getopts htibfrl:p: OPT; do
+while getopts htibfrl:p:e: OPT; do
     case "${OPT}" in
         h)
             usage;;
@@ -69,6 +72,8 @@ while getopts htibfrl:p: OPT; do
         l) 
             python compiler/lexer.py ${OPTARG};;
         p) 
+            python compiler/parser.py ${OPTARG};;
+        e) 
             python compiler/evaluation.py ${OPTARG};;
         *)
             echo "Unrecognized option \"$1\""
