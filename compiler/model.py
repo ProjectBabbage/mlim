@@ -4,7 +4,8 @@ from compiler import utils, gradient_descent
 
 
 class State:
-    store = {}
+    defaults = {"MLIMrewrite": 0}
+    store = defaults
     cells = []
     context = {}
 
@@ -146,9 +147,7 @@ class Var(Prog):
         if self.var in State.context:
             return State.context[self.var]
         else:
-            if self.var in State.store:
-                return State.store[self.var]()
-            return self
+            return State.store[self.var]()
 
     def __str__(self) -> str:
         return self.var
@@ -246,23 +245,20 @@ class BinOp(Prog):
     def __call__(self):
         left = self.left()
         right = self.right()
-        if isinstance(right, Operand) and isinstance(left, Operand):
-            if self.op == "+":
-                return left + right
-            elif self.op == "-":
-                return left - right
-            elif self.op == "*":
-                if type(right) == Matrix and type(left) == Value:
-                    return Matrix(utils.mulMatrixbyScalar(right.operand, left.operand))
-                elif type(left) == Matrix and type(right) == Value:
-                    return Matrix(utils.mulMatrixbyScalar(left.operand, right.operand))
-                return left * right
-            elif self.op == "/":
-                if type(left) == Matrix and type(right) == Value:
-                    return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
-                return left / right
-
-        return BinOp(left, self.op, right)
+        if self.op == "+":
+            return left + right
+        elif self.op == "-":
+            return left - right
+        elif self.op == "*":
+            if type(right) == Matrix and type(left) == Value:
+                return Matrix(utils.mulMatrixbyScalar(right.operand, left.operand))
+            elif type(left) == Matrix and type(right) == Value:
+                return Matrix(utils.mulMatrixbyScalar(left.operand, right.operand))
+            return left * right
+        elif self.op == "/":
+            if type(left) == Matrix and type(right) == Value:
+                return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
+            return left / right
 
     def rewrite(self):
         self.left = self.left.rewrite()

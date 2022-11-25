@@ -165,10 +165,14 @@ class TestEvaluation(TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        model.State.store = {}
+        model.State.store = model.State.defaults
 
 
 class TestSimplify(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        model.State.store["MLIMrewrite"] = 1
+
     def test_simplify_binop(self):
         simplify_binop_tex = Path("fixtures/simplify_binop.tex").read_text()
         result = evaluation.evaluation(simplify_binop_tex)
@@ -178,3 +182,7 @@ class TestSimplify(TestCase):
         simplify_unop_tex = Path("fixtures/simplify_unop.tex").read_text()
         result = evaluation.evaluation(simplify_unop_tex)
         self.assertEqual(result[0], "y")
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        model.State.store = model.State.defaults
