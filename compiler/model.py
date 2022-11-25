@@ -15,7 +15,7 @@ class State:
 
     @staticmethod
     def restart():
-        State.store = {}
+        State.store = State.defaults
 
 
 class Prog:
@@ -43,6 +43,10 @@ class Function:
         ret_value = self.prog()
         del State.context[self.var]
         return ret_value
+
+    def rewrite(self):
+        self.prog = self.prog.rewrite()
+        return self
 
     def __str__(self) -> str:
         return self.var + " \mapsto " + str(self.prog)
@@ -149,6 +153,11 @@ class Var(Prog):
         else:
             return State.store[self.var]()
 
+    def rewrite(self):
+        if self.var in State.store:
+            return State.store[self.var].rewrite()
+        return self
+
     def __str__(self) -> str:
         return self.var
 
@@ -167,7 +176,7 @@ class Operand(Prog):
         return "Operand:" + str(self.operand)
 
 
-class Value(Operand):
+class Value(Operand, float):
     def __init__(self, operand: float):
         super().__init__(operand)
 

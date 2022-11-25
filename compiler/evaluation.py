@@ -12,8 +12,12 @@ def evaluation(input_tex):
         if State.store["MLIMrewrite"] == 1:
             # try should not be necessary here rewrite must always work
             prog = prog.rewrite()
-        ret_value = str(prog())
+        if type(prog) == "":
+            ret_value = str(prog)
+        else:
+            ret_value = str(prog())
     except TypeError as te:
+        ret_value = str(prog)
         print("TypeError", te)
     except KeyError as ke:
         ret_value = str(prog)

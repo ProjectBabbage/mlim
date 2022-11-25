@@ -183,6 +183,11 @@ class TestSimplify(TestCase):
         result = evaluation.evaluation(simplify_unop_tex)
         self.assertEqual(result[0], "y")
 
+    def test_simplify_function(self):
+        simplify_function_tex = Path("fixtures/simplify_function.tex").read_text()
+        result = evaluation.evaluation(simplify_function_tex)
+        self.assertEqual(result[0], "y \mapsto (5.0+y)")
+
     @classmethod
     def tearDownClass(cls) -> None:
         model.State.store = model.State.defaults
