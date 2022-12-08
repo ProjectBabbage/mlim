@@ -49,10 +49,10 @@ class Function:
         return self
 
     def __str__(self) -> str:
-        return self.var + " \mapsto " + str(self.prog)
+        return f"{self.var} \mapsto {self.prog}"
 
     def __repr__(self) -> str:
-        return "Function: " + self.var
+        return f"Function({self.var}, {repr(self.prog)}"
 
 
 class Call:
@@ -65,10 +65,10 @@ class Call:
         return f(self.arg())
 
     def __str__(self) -> str:
-        return self.func + "(" + str(self.arg) + ")"
+        return f"{self.func}({self.arg})"
 
     def __repr__(self) -> str:
-        return "Call: " + self.func + "(x)"
+        return f"{self.func}({repr(self.arg)})"
 
 
 class Sum(Prog):
@@ -92,19 +92,13 @@ class Sum(Prog):
         return s
 
     def __str__(self) -> str:
-        return (
-            "\\sum_{"
-            + self.var
-            + "="
-            + str(self.init)
-            + "}^{"
-            + str(self.end)
-            + "} "
-            + str(self.body)
-        )
+        return f"\\sum{{{self.var}={self.init}}}^{{{self.end}}} {self.body}"
 
     def __repr__(self) -> str:
-        return "Sum: " + self.var
+        init = repr(self.init)
+        end = repr(self.end)
+        body = repr(self.body)
+        return f"Sum({self.var}, {init}, {end}, {body})"
 
 
 class Product(Prog):
@@ -128,19 +122,13 @@ class Product(Prog):
         return s
 
     def __str__(self) -> str:
-        return (
-            "\\prod_{"
-            + self.var
-            + "="
-            + str(self.init)
-            + "}^{"
-            + str(self.end)
-            + "} "
-            + str(self.body)
-        )
+        return f"\\prod_{{{self.var}={self.init}}}^{{{self.end}}} {self.body}"
 
     def __repr__(self) -> str:
-        return "Product: " + self.var
+        init = repr(self.init)
+        end = repr(self.end)
+        body = repr(self.body)
+        return f"Product({self.var}, {init}, {end}, {body})"
 
 
 class Var(Prog):
@@ -162,7 +150,7 @@ class Var(Prog):
         return self.var
 
     def __repr__(self) -> str:
-        return "Var: " + self.var
+        return f"Var({self.var})"
 
 
 class Operand(Prog):
@@ -173,7 +161,7 @@ class Operand(Prog):
         return self
 
     def __repr__(self) -> str:
-        return "Operand:" + str(self.operand)
+        return f"Operand({repr(self.operand)})"
 
 
 class Value(Operand, float):
@@ -196,7 +184,7 @@ class Value(Operand, float):
         return str(self.operand)
 
     def __repr__(self) -> str:
-        return "Value: " + str(self)
+        return f"Value({self.operand})"
 
 
 class Matrix(Operand):
@@ -223,7 +211,8 @@ class Matrix(Operand):
         return "\\begin{bmatrix}" + matrix + "\\end{bmatrix}"
 
     def __repr__(self) -> str:
-        return "Matrix: " + str(self.operand)
+        m = repr(self.operand)
+        return f"Matrix({m})"
 
 
 class SelectElement(Prog):
@@ -239,10 +228,12 @@ class SelectElement(Prog):
         )
 
     def __str__(self) -> str:
-        return str(self.var) + "_{" + str(self.i) + "," + str(self.j) + "}"
+        return f"{self.var}_{{{self.i}, {self.j}}}"
 
     def __repr__(self) -> str:
-        return "Element: " + str(self.var)
+        i = repr(self.i)
+        j = repr(self.j)
+        return f"Select({self.var}, {i}, {j})"
 
 
 class BinOp(Prog):
@@ -291,10 +282,12 @@ class BinOp(Prog):
         return self
 
     def __str__(self) -> str:
-        return "(" + str(self.left) + self.op + str(self.right) + ")"
+        return f"({self.left}{self.op}{self.right})"
 
     def __repr__(self) -> str:
-        return "Binop: " + str(self.left) + self.op + str(self.right)
+        left = repr(self.left)
+        right = repr(self.right)
+        return f"Binop({left}, {self.op}, {right})"
 
 
 class UnOp(Prog):
@@ -320,6 +313,12 @@ class UnOp(Prog):
                 return Value(-1) * self.right
         return self
 
+    def __str__(self) -> str:
+        return f"{self.op}{self.right}"
+
+    def __repr__(self) -> str:
+        return f"Unop({repr(self.op)}, {repr(self.right)})"
+
 
 class GradientDescent(Prog):
     def __init__(self, var: str):
@@ -329,7 +328,7 @@ class GradientDescent(Prog):
         return gradient_descent.wrapper(State.store[self.var])
 
     def __str__(self) -> str:
-        return "\\nabla " + self.var
+        return f"\\nabla {self.var}"
 
     def __repr__(self) -> str:
-        return "Grad Desc: " + self.var
+        return "GradDesc({repr(self.var)})"

@@ -23,3 +23,11 @@ def evaluation(input_tex):
         message = str(e)
         print("Exception", e)
     return ret_value, message
+
+
+if __name__ == "__main__":
+    import sys
+
+    input_tex = open(sys.argv[1]).read()
+
+    print(evaluation(input_tex))
