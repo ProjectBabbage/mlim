@@ -1,6 +1,6 @@
 from pathlib import Path
 from unittest import TestCase
-from compiler import parser, model
+from compiler import parser, model, evaluation
 
 
 class TestBinOps(TestCase):
@@ -165,9 +165,29 @@ class TestEvaluation(TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        model.State.store = {}
+        model.State.store = model.State.defaults
 
-    # def test_TEMPLATE(self):
-    #     TEMPLATE_tex = Path("fixtures/TEMPLATE.tex").read_text()
-    #     prog = parser.yacc.parse(TEMPLATE_tex)
-    #     self.assertEqual(prog().operand, XXX)
+
+class TestSimplify(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        model.State.store["MLIMrewrite"] = 1
+
+    def test_simplify_binop(self):
+        simplify_binop_tex = Path("fixtures/simplify_binop.tex").read_text()
+        result = evaluation.evaluation(simplify_binop_tex)
+        self.assertEqual(result[0], "y")
+
+    def test_simplify_unop(self):
+        simplify_unop_tex = Path("fixtures/simplify_unop.tex").read_text()
+        result = evaluation.evaluation(simplify_unop_tex)
+        self.assertEqual(result[0], "y")
+
+    def test_simplify_function(self):
+        simplify_function_tex = Path("fixtures/simplify_function.tex").read_text()
+        result = evaluation.evaluation(simplify_function_tex)
+        self.assertEqual(result[0], "y \mapsto (5.0+y)")
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        model.State.store = model.State.defaults

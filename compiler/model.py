@@ -4,7 +4,8 @@ from compiler import utils, gradient_descent
 
 
 class State:
-    store = {}
+    defaults = {"MLIMrewrite": 0}
+    store = defaults
     cells = []
     context = {}
 
@@ -14,7 +15,7 @@ class State:
 
     @staticmethod
     def restart():
-        State.store = {}
+        State.store = State.defaults
 
 
 class Prog:
@@ -23,6 +24,11 @@ class Prog:
 
     def __call__(self):
         return self.prog()
+
+    def rewrite(self):
+        if hasattr(self, "prog"):
+            return self.prog.rewrite()
+        return self
 
 
 class Function:
@@ -37,6 +43,10 @@ class Function:
         ret_value = self.prog()
         del State.context[self.var]
         return ret_value
+
+    def rewrite(self):
+        self.prog = self.prog.rewrite()
+        return self
 
     def __str__(self) -> str:
         return f"{self.var} \mapsto {self.prog}"
@@ -131,6 +141,11 @@ class Var(Prog):
         else:
             return State.store[self.var]()
 
+    def rewrite(self):
+        if self.var in State.store:
+            return State.store[self.var].rewrite()
+        return self
+
     def __str__(self) -> str:
         return self.var
 
@@ -149,7 +164,7 @@ class Operand(Prog):
         return f"Operand({repr(self.operand)})"
 
 
-class Value(Operand):
+class Value(Operand, float):
     def __init__(self, operand: float):
         super().__init__(operand)
 
@@ -178,6 +193,9 @@ class Matrix(Operand):
 
     def __call__(self):
         return Matrix([[x() for x in line] for line in self.operand])
+
+    def rewrite(self):
+        return Matrix([[x.rewrite() for x in line] for line in self.operand])
 
     def __mul__(self, b):
         return Matrix(utils.mulMatrix(self.operand, b.operand))
@@ -242,6 +260,27 @@ class BinOp(Prog):
                 return Matrix(utils.divMatrixbyScalar(left.operand, right.operand))
             return left / right
 
+    def rewrite(self):
+        self.left = self.left.rewrite()
+        self.right = self.right.rewrite()
+        if type(self.left) == Value:
+            if type(self.right) == Value:
+                return self()
+            elif self.left.operand == 0 and self.op == "*":
+                return self.left
+            elif (self.left.operand == 1 and self.op == "*") or (
+                self.left.operand == 0 and self.op in ["+", "-"]
+            ):
+                return self.right
+        elif type(self.right) == Value:
+            if self.right.operand == 0 and self.op == "*":
+                return self.right
+            elif (self.right.operand == 1 and self.op == "*") or (
+                self.right.operand == 0 and self.op in ["+", "-"]
+            ):
+                return self.left
+        return self
+
     def __str__(self) -> str:
         return f"({self.left}{self.op}{self.right})"
 
@@ -264,6 +303,15 @@ class UnOp(Prog):
             if type(right) == Matrix:
                 return Matrix(utils.mulMatrixbyScalar(right.operand, -1))
             return Value(-1) * right
+
+    def rewrite(self):
+        self.right = self.right.rewrite()
+        if type(self.right) == Value:
+            if self.op == "+":
+                return self.right
+            elif self.op == "-":
+                return Value(-1) * self.right
+        return self
 
     def __str__(self) -> str:
         return f"{self.op}{self.right}"

@@ -31,11 +31,14 @@ def p_func(p):
 def p_prog(p):
     """prog : SUM UNDERS LBRACK VAR EQUALS prog RBRACK CARET LBRACK prog RBRACK mulprog
     | prog ADDOP prog
+    | ADDOP prog
     | mulprog"""
     if len(p) == 13:
         p[0] = model.Sum(p[4], p[6], p[10], p[12])
     elif len(p) == 4:
         p[0] = model.BinOp(p[1], p[2], p[3])
+    elif len(p) == 3:
+        p[0] = model.UnOp(p[1], p[2])
     else:
         p[0] = p[1]
 
@@ -43,14 +46,11 @@ def p_prog(p):
 def p_mulprog(p):
     """mulprog : PRODUCT UNDERS LBRACK VAR EQUALS prog RBRACK CARET LBRACK prog RBRACK literal
     | mulprog MULOP mulprog
-    | ADDOP prog
     | literal"""
     if len(p) == 13:
         p[0] = model.Product(p[4], p[6], p[10], p[12])
     elif len(p) == 4:
         p[0] = model.BinOp(p[1], p[2], p[3])
-    elif len(p) == 3:
-        p[0] = model.UnOp(p[1], p[2])
     else:
         p[0] = p[1]
 
